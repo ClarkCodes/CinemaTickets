@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+
+description = 'Sistema de Administracion de Cines'
+
+mainClassName = 'PROYECTO_CINES_CLARK_CODES.Principal'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation     'junit:junit:4.13'
+    implementation fileTree(dir: 'lib', include: 'flatlaf-1.6.1.jar')
+    implementation fileTree(dir: 'lib', include: 'flatlaf-intellij-themes-1.6.1.jar')
+    implementation fileTree(dir: 'lib', include: 'flatlaf-extras-1.6.1.jar')
+    implementation fileTree(dir: 'lib', include: 'svgSalamander-1.1.2.4.jar')
+}
