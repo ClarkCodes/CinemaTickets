@@ -1,4 +1,9 @@
 package model;
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 
 /** Super Abstract Class from where others classes are meant to inherit / 
  * Super Clase ElementoCine, de la cual heredarán las demás.

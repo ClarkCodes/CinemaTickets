@@ -1,5 +1,9 @@
 package control;
-
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 /** Excepcion Personalizada 
  * @author Clark - ClarkCodes */
 public final class InvalidInputException extends Exception

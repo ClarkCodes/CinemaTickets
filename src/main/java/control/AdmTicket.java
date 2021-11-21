@@ -1,4 +1,9 @@
 package control;
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 // Imports
 import data.DatosTickets;
 import java.util.ArrayList;
@@ -17,8 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdmTicket
 {   // Atributos - Propiedades
-    private HashMap<String, Ticket> tickets = null; // Coleccion HashMap Principal donde estar�n almacenados los registros primordiales como objetos, en este caso de Tickets.
-    private Ticket ticket = null; // Objeto Ticket declarado pero no inicializado(por eso es null o nulo) para luego s� hacerlo y guardarlo como elemento en el HashMap tickets cada vez que quiera agregar un elemento.
+    private HashMap<String, Ticket> tickets = null; // Coleccion HashMap Principal donde estaran almacenados los registros primordiales como objetos, en este caso de Tickets.
+    private Ticket ticket = null; // Objeto Ticket declarado pero no inicializado(por eso es null o nulo) para luego si hacerlo y guardarlo como elemento en el HashMap tickets cada vez que quiera agregar un elemento.
     private int ticketsGenerados = 0; // Cantidad de Tickets Generados para controlar el numero de ticket.
     private boolean ticketGeneradoExitosamente = false;
     private boolean saved = false;

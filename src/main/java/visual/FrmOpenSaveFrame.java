@@ -1,4 +1,9 @@
 package visual;
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 
 /** Frame to pass to the Open and Save Dialogs with the proper Icon set previously
  * @author Clark - ClarkCodes

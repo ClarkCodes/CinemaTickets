@@ -1,4 +1,9 @@
 package visual;
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 // Imports
 import PROYECTO_CINES_CLARK_CODES.Principal;
 import java.awt.Color;

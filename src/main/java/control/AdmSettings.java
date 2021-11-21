@@ -1,4 +1,9 @@
 package control;
+/* LICENSE 
+ * Creative Commons Zero v1.0 Universal
+ * CC0 1.0 Universal
+ * Please check out the license file in this project's root folder.
+ */
 // Imports
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -20,7 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class AdmSettings 
 {   
-    private final static String APP_VERSION = "public-stable-1.5"; // Application Version Constant
+    private final static String APP_VERSION = "v1.5-public-stable"; // Application Version Constant
     // Fields, Attributes - Properties    
     private final ArrayList<String> availableFlatLafThemes; // Main Lists of Themes - These lists will be useful to fulfill the combo boxes of Settings Window
     private final ArrayList<String> availableIntelliJThemes;
