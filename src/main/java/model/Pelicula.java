@@ -1,10 +1,15 @@
+
 package model;
-/* LICENSE 
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
  */
 // Imports
+import control.AdmPelicula.MovieGenres;
+import control.AdmSettings;
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,12 +26,13 @@ import java.util.ArrayList;
  *  - horariosDisponibles: A {@code ArrayList<LocalTime>} object that represents an available schedule list for this movie
  *  - fechaEstreno: A {@code LocalDate} object that represents the release date of this movie
  * </pre>
+ *
  * @author Clark - ClarkCodes
  * @since 1.0
  */
-public class Pelicula extends ElementoCine
+public final class Pelicula extends ElementoCine implements Serializable
 {
-    private String genero;
+    private MovieGenres genero;
     private String idioma;
     private boolean tieneSubtitulos;
     private String idiomaSubtitulos;
@@ -35,19 +41,21 @@ public class Pelicula extends ElementoCine
     private LocalDate fechaEstreno;
 
     /** Parameterized Constructor for creating movie objects.
-     * @param id this movie ID
-     * @param nombre this movie name
-     * @param genero this movie genre
-     * @param idioma this movie language
-     * @param tieneSubtitulos {@code boolean} identifier that indicates if this movie has subtitles or not
-     * @param idiomaSubtitulos this movie's subtitles language
-     * @param duracion this movie duration in format h:mm
+     *
+     * @param id                  this movie ID
+     * @param nombre              this movie name
+     * @param genero              this movie genre
+     * @param idioma              this movie language
+     * @param tieneSubtitulos     {@code boolean} identifier that indicates if
+     *                            this movie has subtitles or not
+     * @param idiomaSubtitulos    this movie's subtitles language
+     * @param duracion            this movie duration in format h:mm
      * @param horariosDisponibles this movie's available schedule list
-     * @param fechaEstreno this movie release date
+     * @param fechaEstreno        this movie release date
      */
-    public Pelicula(String id, String nombre, String genero, String idioma, boolean tieneSubtitulos, String idiomaSubtitulos, Duration duracion, ArrayList<LocalTime> horariosDisponibles, LocalDate fechaEstreno) 
+    public Pelicula ( String id, String nombre, MovieGenres genero, String idioma, boolean tieneSubtitulos, String idiomaSubtitulos, Duration duracion, ArrayList<LocalTime> horariosDisponibles, LocalDate fechaEstreno )
     {
-        super(id, nombre);
+        super( id, nombre );
         this.genero = genero;
         this.idioma = idioma;
         this.tieneSubtitulos = tieneSubtitulos;
@@ -56,81 +64,143 @@ public class Pelicula extends ElementoCine
         this.horariosDisponibles = horariosDisponibles;
         this.fechaEstreno = fechaEstreno;
     }
+    /** Sole Constructor */
+    public Pelicula ()
+    {
+        super ( "", "" );
+    }
 
     @Override
-    public String toString() 
+    public String toString ()
     {
-        return "\n\n** Película **" + super.toString()  
-                + "\nGénero: " + getGenero()
-                + "\nIdioma: " + getIdioma()
-                + "\nTiene Subtítulos: " + (isTieneSubtitulos() ? ("Si" + "\nIdioma de los Subt\u00edtulos:" + getIdiomaSubtitulos()) : "No")
-                + "\nDuración: " + obtenerDuracionFormateada()
-                + "\nFecha de Estreno: " + getFechaEstreno().format(CommonlyUsedObjects.getFormatoDateTime(CommonlyUsedObjects.TypeFormatoDateTime.FechaLarga));
+        return "\n\n** " + AdmSettings.getLanguageBundle().getString( "lk_movie" ) + " **" + super.toString()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_movie_genre_label" ) + AdmSettings.getLanguageBundle().getString( getGenero().getLangKey() )
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_language_label" ) + getIdioma()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_movie_has_subs_label" ) + ( isTieneSubtitulos() ? ( AdmSettings.getLanguageBundle().getString( "lk_yes" ) + "\n" + AdmSettings.getLanguageBundle().getString( "lk_movie_subs_language_label" ) + getIdiomaSubtitulos() ) : "No" )
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_movie_duration_label" ) + obtenerDuracionFormateada()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_movie_premiere_date_label" ) + getFechaEstreno().format( Commons.getFormatoDateTime( Commons.TypeFormatoDateTime.FechaLarga ) );
     }
 
-    /** Gets this movie's duration in format h:mm 
+    /** Gets this movie's duration in format h:mm
+     *
      * @return The {@code String} representation of this movie's duration
      */
-    public String obtenerDuracionFormateada()
+    public String obtenerDuracionFormateada ()
     {   // Duracion Formateada
-        return LocalTime.ofSecondOfDay(getDuracion().toSeconds()).
-                format(CommonlyUsedObjects.getFormatoDateTime(CommonlyUsedObjects.TypeFormatoDateTime.Duracion));
+        return LocalTime.ofSecondOfDay( getDuracion().toSeconds() ).
+                format( Commons.getFormatoDateTime( Commons.TypeFormatoDateTime.Duracion ) );
     }
-    
+
     // Getters and Setters
-    public String getGenero() {
+    /** Gets this movie genre
+     * @return A {@code MovieGenres enum} constant that represents this movie 
+     * genre
+     */
+    public MovieGenres getGenero ()
+    {
         return genero;
     }
-
-    public void setGenero(String genero) {
+    /** Sets this movie genre
+     * @param genero A {@code MovieGenres enum} constant that represents this 
+     *               movie genre
+     */
+    public void setGenero ( MovieGenres genero )
+    {
         this.genero = genero;
     }
-
-    public String getIdioma() {
+    /** Gets this movie language
+     * @return A {@code String} representation that contains this movie language
+     */
+    public String getIdioma ()
+    {
         return idioma;
     }
-
-    public void setIdioma(String idioma) {
+    /** Sets this movie language
+     * @param idioma A {@code String} representation that contains this movie 
+     *               language
+     */
+    public void setIdioma ( String idioma )
+    {
         this.idioma = idioma;
     }
-
-    public Duration getDuracion() {
+    /** Gets this movie time duration
+     * @return A {@code Duration} object that represents the time this movie 
+     * lasts
+     */
+    public Duration getDuracion ()
+    {
         return duracion;
     }
-
-    public void setDuracion(Duration duracion) {
+    /** Sets this movie time duration
+     * @param duracion A {@code Duration} object that represents the time this 
+     *                 movie lasts
+     */
+    public void setDuracion ( Duration duracion )
+    {
         this.duracion = duracion;
     }
-
-    public boolean isTieneSubtitulos() {
+    /** Gets this movie indicator about if it has subtitles
+     * @return {@code true} if this movie has subtitles, {@code false} otherwise
+     */
+    public boolean isTieneSubtitulos ()
+    {
         return tieneSubtitulos;
     }
-
-    public void setTieneSubtitulos(boolean tieneSubtitulos) {
+    /** Sets this movie indicator about if it has subtitles
+     * @param tieneSubtitulos Shall be {@code true} if this movie has subtitles,
+     *                        {@code false} otherwise
+     */
+    public void setTieneSubtitulos ( boolean tieneSubtitulos )
+    {
         this.tieneSubtitulos = tieneSubtitulos;
     }
-
-    public String getIdiomaSubtitulos() {
+    /** Gets this movie subtitles language
+     * @return A {@code String} representation that contains this movie 
+     * subtitles language
+     */
+    public String getIdiomaSubtitulos ()
+    {
         return idiomaSubtitulos;
     }
-
-    public void setIdiomaSubtitulos(String idiomaSubtitulos) {
+    /** Sets this movie subtitles language
+     * @param idiomaSubtitulos A {@code String} representation that contains 
+     *                         this movie subtitles language
+     */
+    public void setIdiomaSubtitulos ( String idiomaSubtitulos )
+    {
         this.idiomaSubtitulos = idiomaSubtitulos;
     }
-
-    public ArrayList<LocalTime> getHorariosDisponibles() {
+    /** Gets this movie available showtimes
+     * @return A {@code ArrayList<LocalTime>} collection with {@code LocalTime}
+     * objects as elements that represents available showtimes each
+     */
+    public ArrayList<LocalTime> getHorariosDisponibles ()
+    {
         return horariosDisponibles;
     }
-
-    public void setHorariosDisponibles(ArrayList<LocalTime> horariosDisponibles) {
+    /** Sets this movie available showtimes
+     * @param horariosDisponibles A {@code ArrayList<LocalTime>} collection with
+     *                            {@code LocalTime} objects as elements that 
+     *                            represents available showtimes each
+     */
+    public void setHorariosDisponibles ( ArrayList<LocalTime> horariosDisponibles )
+    {
         this.horariosDisponibles = horariosDisponibles;
     }
-
-    public LocalDate getFechaEstreno() {
+    /** Gets this movie premiere release date
+     * @return A {@code LocalDate} object that represents this movie premiere 
+     * release date
+     */
+    public LocalDate getFechaEstreno ()
+    {
         return fechaEstreno;
     }
-
-    public void setFechaEstreno(LocalDate fechaEstreno) {
+    /** Sets this movie premiere release date
+     * @param fechaEstreno A {@code LocalDate} object that represents this movie
+     *                     premiere release date
+     */
+    public void setFechaEstreno ( LocalDate fechaEstreno )
+    {
         this.fechaEstreno = fechaEstreno;
     }
 

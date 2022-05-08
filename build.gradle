@@ -2,10 +2,10 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
 
-
 description = 'Sistema de Administracion de Cines'
-
 mainClassName = 'PROYECTO_CINES_CLARK_CODES.Principal'
+version = 'v1.6-public-stable'
+targetCompatibility = 17
 
 repositories {
     mavenCentral()
@@ -13,8 +13,29 @@ repositories {
 
 dependencies {
     testImplementation     'junit:junit:4.13'
-    implementation fileTree(dir: 'lib', include: 'flatlaf-1.6.1.jar')
-    implementation fileTree(dir: 'lib', include: 'flatlaf-intellij-themes-1.6.1.jar')
-    implementation fileTree(dir: 'lib', include: 'flatlaf-extras-1.6.1.jar')
-    implementation fileTree(dir: 'lib', include: 'svgSalamander-1.1.2.4.jar')
+    implementation fileTree('lib')
+}
+
+javadoc
+{
+  title = 'CinemaTickets ' + version
+}
+
+jar
+{
+    baseName = 'CinemaTickets '
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest
+    {
+        attributes('Main-Class': mainClassName, 'Implementation-Version': version)
+    }
+
+    sourceSets.main.resources.srcDirs = [ "src/main/resources" ]
+    sourceSets.main.resources.includes = [ "**/*.*" ]
+
+    from 
+    {
+        configurations.runtimeClasspath.filter { it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

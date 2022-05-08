@@ -1,4 +1,8 @@
 #-- CinemaTickets Default Properties -- WARNING: THIS IS AN APPLICATION SYSTEM PROPERTIES FILE. DO NOT CHANGE OR MODIFY THIS FILE
-#Mon Oct 18 03:40:58 ECT 2021
-dataInputMode=stored
-currentGuiLafTheme=Flat Dark
+#Thu May 05 22:29:41 ECT 2022
+fileTypeToSave=text
+clientDataMode=stored
+startingFolder=default
+appDataMode=stored
+currentGuiLafTheme=Night Owl (Material)
+appLocale=es_EC

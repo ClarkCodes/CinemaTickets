@@ -1,28 +1,37 @@
+
 package model;
-/* LICENSE 
+
+import control.AdmSettings;
+import java.io.Serializable;
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
  */
 
 /** Cliente Class, represents a Client in real life with 4 basic attributes
+ *
  * @author Clark - ClarkCodes
  * @since 1.0
  */
-public class Cliente implements IGenero
+public final class Cliente implements IGenero, Serializable
 {
-    private String cedula;
-    private String nombreCliente;
+    private String cedula, nombreCliente;
     private int edad;
     private char genero;
-    
-    /** Parameterized Constructor which loads a {@code Cliente} instance with its 4 basic attributes.
-     * @param cedula Person's ID (In Ecuador it is a "Cedula de Ciudadania")
+
+    /** Parameterized Constructor which loads a {@code Cliente} instance with
+     * its 4 basic attributes.
+     *
+     * @param cedula        Person's ID (In Ecuador it is a "Cedula de
+     *                      Ciudadania")
      * @param nombreCliente Client's name
-     * @param edad Client's age
-     * @param genero Client's gender: Male or Female for this case it is a char, so it must be a 'M' or a 'F'
+     * @param edad          Client's age
+     * @param genero        Client's gender: Male or Female for this case it is
+     *                      a char, so it must be a 'M' or a 'F'
      */
-    public Cliente(String cedula, String nombreCliente, int edad, char genero) 
+    public Cliente ( String cedula, String nombreCliente, int edad, char genero )
     {
         this.cedula = cedula;
         this.nombreCliente = nombreCliente;
@@ -30,64 +39,103 @@ public class Cliente implements IGenero
         this.genero = genero;
     }
     
-    @Override
-    public String toString() 
-    {
-        return """
-               
-               
-               ** Cliente **
-               C\u00e9dula de Identidad: """ + getCedula()
-                + "\nNombre: " + getNombreCliente()
-                + "\nEdad: " + getStrEdad()
-                + "\nGénero: " + verGenero();
-    }
+    /** Sole Constructor */
+    public Cliente() {}
 
     @Override
-    public String verGenero() 
+    public String toString ()
     {
-        return ((getGenero() == 'M') ? "Masculino" : "Femenino");
+        return "\n\n** " + AdmSettings.getLanguageBundle().getString( "lk_client" ) + " **"
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_client_only_id_label" ) + getCedula()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_name_label" ) + getNombreCliente()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_age_label" ) + getStrEdad()
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_gender_label" ) + verGenero();
     }
-    
-    /** Gets a {@code String} representation of this Client's age in human language, for example: 36 años
-     * @return The age {@code String} representation
+
+    /** Gets this client gender as the corresponding word in natural language
+     * 
+     * @return A {@code String} representation of the word that corresponds to 
+     * this {@code Cliente} client instance object gender
      */
-    public String getStrEdad()
+    @Override
+    public String verGenero ()
     {
-        return edad + " años";
+        return ( ( getGenero() == 'M' ) ? AdmSettings.getLanguageBundle().getString( "lk_search_male" ) : AdmSettings.getLanguageBundle().getString( "lk_search_female" ) );
     }
-    
+
+    /** Gets a {@code String} representation of this Client age in human
+     * language, for example: 36 years old / 36 años
+     *
+     * @return The {@code String} age representation
+     * 
+     * @since 1.6
+     */
+    public String getStrEdad ()
+    {
+        return edad + " " + AdmSettings.getLanguageBundle().getString( "lk_search_years" );
+    }
+
     // Getters and Setters
-    public int getEdad() {
+    /** Gets this client age
+     * @return An {@code int} number that indicates this client age
+     */
+    public int getEdad ()
+    {
         return edad;
     }
-
-    public void setEdad(int edad) {
+    /** Sets this client age
+     * @param edad An {@code int} number that indicates this client age
+     */
+    public void setEdad ( int edad )
+    {
         this.edad = edad;
     }
-
-    public char getGenero() {
+    /** Gets this client gender
+     * @return A {@code char} M or F that indicates the client gender, M: Male, 
+     * F: Female
+     */
+    public char getGenero ()
+    {
         return genero;
     }
-
-    public void setGenero(char genero) {
+    /** Sets this client gender
+     * @param genero A {@code char} M or F that indicates the client gender, 
+     *               M: Male, F: Female
+     */
+    public void setGenero ( char genero )
+    {
         this.genero = genero;
-    }  
-
-    public String getCedula() {
+    }
+    /** Gets this client cedula identification
+     * @return A {@code String} representation that contains this client cedula 
+     * identification
+     */
+    public String getCedula ()
+    {
         return cedula;
     }
-
-    public void setCedula(String cedula) {
+    /** Sets this client cedula identification
+     * @param cedula A {@code String} representation that contains this client cedula 
+     *               identification
+     */
+    public void setCedula ( String cedula )
+    {
         this.cedula = cedula;
     }
-
-    public String getNombreCliente() {
+    /** Gets this client name
+     * @return A {@code String} representation that contains this client name
+     */
+    public String getNombreCliente ()
+    {
         return nombreCliente;
     }
-
-    public void setNombreCliente(String nombreCliente) {
+    /** Sets this client name
+     * @param nombreCliente A {@code String} representation that contains this 
+     *                      client name
+     */
+    public void setNombreCliente ( String nombreCliente )
+    {
         this.nombreCliente = nombreCliente;
     }
-    
+
 }

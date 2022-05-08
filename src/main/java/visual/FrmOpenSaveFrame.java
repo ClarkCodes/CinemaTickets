@@ -11,7 +11,6 @@ package visual;
  */
 public class FrmOpenSaveFrame extends javax.swing.JFrame
 {
-
     /**
      * Creates new form FrmOpenSaveFrame
      */
@@ -29,7 +28,6 @@ public class FrmOpenSaveFrame extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

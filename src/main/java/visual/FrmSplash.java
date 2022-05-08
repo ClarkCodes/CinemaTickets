@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class FrmSplash extends javax.swing.JFrame implements Runnable 
 {
-    Thread t; //Creo un nuevo hilo implementando la interface Runnable en esta clase para sobreescribir el método run
+    Thread t; //Creo un nuevo hilo implementando la interface Runnable en esta clase para sobreescribir el mï¿½todo run
 
     public FrmSplash() 
     {
@@ -29,29 +29,42 @@ public class FrmSplash extends javax.swing.JFrame implements Runnable
     {
 
         jLabel1 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
-        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_FEVM_12@8x_MODIFICADO_SINGLE_500px.png"))).getImage());
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png"))).getImage());
         setUndecorated(true);
         setResizable(false);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Splash_Cinema_Ticket_FEVM_v2.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Splash_CinemaTickets_v2.png"))); // NOI18N
         jLabel1.setAlignmentY(0.0F);
         jLabel1.setFocusable(false);
         jLabel1.setInheritsPopupMenu(false);
         jLabel1.setName("lblSplash"); // NOI18N
 
+        jProgressBar1.setIndeterminate(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 1119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -77,5 +90,6 @@ public class FrmSplash extends javax.swing.JFrame implements Runnable
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
 }

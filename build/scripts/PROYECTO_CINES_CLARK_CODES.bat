@@ -67,7 +67,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\PROYECTO_CINES_CLARK_CODES.jar;%APP_HOME%\lib\flatlaf-1.6.1.jar;%APP_HOME%\lib\flatlaf-intellij-themes-1.6.1.jar;%APP_HOME%\lib\flatlaf-extras-1.6.1.jar;%APP_HOME%\lib\svgSalamander-1.1.2.4.jar
+set CLASSPATH=%APP_HOME%\lib\CinemaTickets -v1.6-public-stable.jar;%APP_HOME%\lib\flatlaf-2.1.jar;%APP_HOME%\lib\flatlaf-extras-2.1.jar;%APP_HOME%\lib\flatlaf-intellij-themes-2.1.jar;%APP_HOME%\lib\svgSalamander-1.1.3.jar
 
 
 @rem Execute PROYECTO_CINES_CLARK_CODES

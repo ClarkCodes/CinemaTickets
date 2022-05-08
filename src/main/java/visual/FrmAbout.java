@@ -1,5 +1,7 @@
+
 package visual;
-/* LICENSE 
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
@@ -8,20 +10,21 @@ package visual;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-/** About Window - Venta Acerca de... 
+/** About Window - Venta Acerca de...
+ *
  * @author Clark - ClarkCodes
  * @since 1.0
  */
-public class FrmAbout extends javax.swing.JDialog 
+public class FrmAbout extends javax.swing.JDialog
 {
-    public FrmAbout(java.awt.Frame parent, boolean modal) 
+    public FrmAbout ( java.awt.Frame parent, boolean modal )
     {
-        super(parent, modal);
+        super( parent, modal );
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        this.setLocationRelativeTo( null );
+        this.setBackground( new Color( 1.0f, 1.0f, 1.0f, 0.0f ) );
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
@@ -30,7 +33,8 @@ public class FrmAbout extends javax.swing.JDialog
         lblAbout = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Acerca de...");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("internationalization/Internationalization_Bundle"); // NOI18N
+        setTitle(bundle.getString("lk_about")); // NOI18N
         setBackground(new java.awt.Color(24, 55, 77));
         setUndecorated(true);
         setResizable(false);
@@ -49,13 +53,13 @@ public class FrmAbout extends javax.swing.JDialog
             }
         });
 
-        lblAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CinemaTickets_About_public-stable.png"))); // NOI18N
+        lblAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CinemaTickets_About_v1_6-public-stable.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblAbout, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(lblAbout)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,7 +70,7 @@ public class FrmAbout extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE || evt.getKeyCode() == KeyEvent.VK_ENTER) 
+        if ( evt.getKeyCode() == KeyEvent.VK_ESCAPE || evt.getKeyCode() == KeyEvent.VK_ENTER )
             dispose();
     }//GEN-LAST:event_formKeyReleased
 

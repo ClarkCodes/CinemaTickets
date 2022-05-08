@@ -1,56 +1,79 @@
+
 package model;
-/* LICENSE 
+
+import control.AdmSettings;
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
  */
 
-/** Super Abstract Class from where others classes are meant to inherit / 
- * Super Clase ElementoCine, de la cual heredarán las demás.
+/** Abstract Class which others classes are meant to inherit from /
+ * Clase Abstracta, de la cual heredarán otras clases
  * <p>
  * It has 2 attributes: id and name, both {@code String}.
+ *
  * @author Clark - ClarkCodes
  * @since 1.0
  */
-public abstract class ElementoCine 
+public abstract class ElementoCine
 {
     protected String id;
     protected String nombre;
 
     /** Parameterized Constructor with its 2 attributes to initialize
-     * @param id The ID for the element that inherits
+     *
+     * @param id     The ID for the element that inherits
      * @param nombre The name for the element that inherits
      */
-    public ElementoCine(String id, String nombre) 
+    public ElementoCine ( String id, String nombre )
     {
         this.id = id;
         this.nombre = nombre;
     }
 
-    /** Method {@code toString} with this object's atributes
-     * @return The organized {@code String} representation with this object's attributes values, one line each
+    /** Gets a this object's atributes data as text in natural language,
+     * overriding the implementation by default with a customized one
+     *
+     * @return The organized {@code String} representation with this object's
+     *         attributes values, one line each
      */
     @Override
-    public String toString() 
+    public String toString ()
     {
-        return "\nNombre: " + nombre 
-                + "\nCódigo - ID: " + id;
+        return "\n" + AdmSettings.getLanguageBundle().getString( "lk_name_label" ) + nombre
+                + "\n" + AdmSettings.getLanguageBundle().getString( "lk_super_code_id_label" ) + id;
     }
-    
+
     // Getters and Setters
-    public String getNombre() {
+    /** Gets this object name
+     * @return A {@code String} representation that contains this object name
+     */
+    public String getNombre ()
+    {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
+    /** Sets this object name
+     * @param nombre A {@code String} representation that contains this object name
+     */
+    public void setNombre ( String nombre )
+    {
         this.nombre = nombre;
     }
-
-    public String getId() {
+    /** Gets this object identification
+     * @return A {@code String} representation that contains this object id
+     */
+    public String getId ()
+    {
         return id;
     }
-
-    public void setId(String id) {
+    /** Sets this object identification
+     * @param id A {@code String} representation that contains this object id
+     */
+    public void setId ( String id )
+    {
         this.id = id;
     }
+
 }

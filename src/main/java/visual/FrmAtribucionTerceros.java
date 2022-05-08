@@ -1,5 +1,7 @@
+
 package visual;
-/* LICENSE 
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
@@ -15,77 +17,92 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JOptionPane;
 
-/** Attribution Window 
- * @author Clark - ClarkCodes */
-public class FrmAtribucionTerceros extends javax.swing.JDialog 
+/** Attribution Window
+ * @author Clark - ClarkCodes
+ * @since 1.0
+ */
+public class FrmAtribucionTerceros extends javax.swing.JDialog
 {
-    AdmSettings admSettings = AdmSettings.getAdmSettings();
+    private final AdmSettings admSettings;
     private String freepikLinkURL = "https://www.freepik.com/";
     private String formDevLinkURL = "https://www.formdev.com/flatlaf/";
     private String materialIconsLinkURL = "https://fonts.google.com/icons";
-    
-    public FrmAtribucionTerceros(java.awt.Frame parent, boolean modal) 
+
+    public FrmAtribucionTerceros ( java.awt.Frame parent, boolean modal )
     {
-        super(parent, modal);
+        super( parent, modal );
         initComponents();
-        setLocationRelativeTo(null);
-        this.setIconImage(admSettings.getGroupsAttributionIconForAttributionForm().getImage());
-        
+        setLocationRelativeTo( null );
+        admSettings = AdmSettings.getAdmSettings();
+        this.setIconImage( admSettings.getGroupsAttributionIconForAttributionForm().getImage() );
+
         // Linked Label for Freepik URL
         this.labelFreepikLink.setText( "<html><a href=\"#\">" + freepikLinkURL + "</a></html>" );
         this.labelFreepikLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        labelFreepikLink.addMouseListener( new MouseAdapter() 
+        labelFreepikLink.addMouseListener( new MouseAdapter()
         {
             @Override
-            public void mouseClicked( MouseEvent e ) 
+            public void mouseClicked ( MouseEvent e )
             {
-                try 
+                try
                 {
                     Desktop.getDesktop().browse( new URI( freepikLinkURL ) );
-                } 
-                catch( IOException | URISyntaxException ex ) 
+                }
+                catch ( IOException | URISyntaxException ex )
                 {
-                    JOptionPane.showMessageDialog( null, "Error al abrir el Link '" + freepikLinkURL + "' en el navegador.","Atribucion - Recursos de Terceros", JOptionPane.WARNING_MESSAGE );
+                    JOptionPane.showMessageDialog( null, java.text.MessageFormat.format( java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "ERROR AL ABRIR EL LINK '{0}' EN EL NAVEGADOR." ), new Object[]
+                    {
+                        freepikLinkURL
+                    } ), java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "lk_attribution_title" ), JOptionPane.WARNING_MESSAGE );
                 }
             }
+
         } );
-        
+
         // Linked Label for FormDev URL
         this.labelFormDevLink.setText( "<html><a href=\"#\">" + formDevLinkURL + "</a></html>" );
         this.labelFormDevLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        labelFormDevLink.addMouseListener( new MouseAdapter() 
+        labelFormDevLink.addMouseListener( new MouseAdapter()
         {
             @Override
-            public void mouseClicked( MouseEvent e ) 
+            public void mouseClicked ( MouseEvent e )
             {
-                try 
+                try
                 {
                     Desktop.getDesktop().browse( new URI( formDevLinkURL ) );
-                } 
-                catch( IOException | URISyntaxException ex ) 
+                }
+                catch ( IOException | URISyntaxException ex )
                 {
-                    JOptionPane.showMessageDialog( null, "Error al abrir el Link '" + formDevLinkURL + "' en el navegador.","Atribucion - Recursos de Terceros", JOptionPane.WARNING_MESSAGE );
+                    JOptionPane.showMessageDialog( null, java.text.MessageFormat.format( java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "ERROR AL ABRIR EL LINK '{0}' EN EL NAVEGADOR." ), new Object[]
+                    {
+                        formDevLinkURL
+                    } ), java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "lk_attribution_title" ), JOptionPane.WARNING_MESSAGE );
                 }
             }
+
         } );
-        
+
         // Linked Label for MaterialIcons URL
         this.labelMaterialIconsLink.setText( "<html><a href=\"#\">" + materialIconsLinkURL + "</a></html>" );
         this.labelMaterialIconsLink.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        labelMaterialIconsLink.addMouseListener( new MouseAdapter() 
+        labelMaterialIconsLink.addMouseListener( new MouseAdapter()
         {
             @Override
-            public void mouseClicked( MouseEvent e ) 
+            public void mouseClicked ( MouseEvent e )
             {
-                try 
+                try
                 {
                     Desktop.getDesktop().browse( new URI( materialIconsLinkURL ) );
-                } 
-                catch( IOException | URISyntaxException ex ) 
+                }
+                catch ( IOException | URISyntaxException ex )
                 {
-                    JOptionPane.showMessageDialog( null, "Error al abrir el Link '" + materialIconsLinkURL + "' en el navegador.","Atribucion - Recursos de Terceros", JOptionPane.WARNING_MESSAGE );
+                    JOptionPane.showMessageDialog( null, java.text.MessageFormat.format( java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "ERROR AL ABRIR EL LINK '{0}' EN EL NAVEGADOR." ), new Object[]
+                    {
+                        materialIconsLinkURL
+                    } ), java.util.ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" ).getString( "lk_attribution_title" ), JOptionPane.WARNING_MESSAGE );
                 }
             }
+
         } );
     }
 
@@ -131,7 +148,8 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Atribucion - Recursos de Terceros");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("internationalization/Internationalization_Bundle"); // NOI18N
+        setTitle(bundle.getString("lk_attribution_title")); // NOI18N
         setIconImage(null);
         setResizable(false);
 
@@ -139,24 +157,24 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Recursos Graficos");
+        jLabel1.setText(bundle.getString("lk_graphical_resources")); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Ademas se usaron algunas otras imagenes tomadas de Google y sitios de Wallpapers gratuitos.");
+        jLabel9.setText(bundle.getString("lk_att_usage_comment")); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("2021 - 2022");
+        jLabel14.setText(bundle.getString("2021 - 2022")); // NOI18N
         jLabel14.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vectores e imagenes descargadas desde Freepik.com", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_vectors_downloaded_from"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea1.setRows(1);
-        jTextArea1.setText("Designed by macrovector / Freepik");
+        jTextArea1.setText(bundle.getString("lk_designed_by_macrovector")); // NOI18N
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -171,7 +189,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextArea2.setText("Designed by vectorpocket / Freepik");
+        jTextArea2.setText(bundle.getString("lk_designed_by_vectorpocket")); // NOI18N
         jScrollPane2.setViewportView(jTextArea2);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -182,7 +200,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         jTextArea3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea3.setRows(1);
         jTextArea3.setTabSize(1);
-        jTextArea3.setText("Designed by Freepik / Freepik");
+        jTextArea3.setText(bundle.getString("lk_designed_by_freepik")); // NOI18N
         jScrollPane3.setViewportView(jTextArea3);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -193,17 +211,17 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Se puede encontrar estos recursos en:");
+        jLabel15.setText(bundle.getString("lk_find_resources_on")); // NOI18N
 
         labelFreepikLink.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         labelFreepikLink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelFreepikLink.setText("Freepik Link");
+        labelFreepikLink.setText(bundle.getString("FREEPIK LINK")); // NOI18N
 
         jTextArea4.setEditable(false);
         jTextArea4.setColumns(20);
         jTextArea4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea4.setRows(1);
-        jTextArea4.setText("Designed by 3ab2ou / Freepik");
+        jTextArea4.setText(bundle.getString("lk_designed_by_3ab2ou")); // NOI18N
         jScrollPane4.setViewportView(jTextArea4);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -261,25 +279,25 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Temas de la Interfaz Grafica de Usuario - Color y Diseño - GUI Look and Feel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_laf_themes_title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
         jTextArea5.setEditable(false);
         jTextArea5.setColumns(20);
         jTextArea5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea5.setRows(1);
-        jTextArea5.setText("Desarrollado por FormDev Software:");
+        jTextArea5.setText(bundle.getString("lk_designed_by_formdev")); // NOI18N
         jScrollPane5.setViewportView(jTextArea5);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel11.setText("Flat Look And Feel - FlatLaf version 1.6.1 - FlatLaf IntelliJ Themes and Extras version 1.6.1 - Salamander 1.1.2.4");
+        jLabel11.setText("Flat Look And Feel: FlatLaf 2.1 - FlatLaf IntelliJ Themes 2.1 - FlatLaf Extras 2.1 - SVG Salamander 1.1.3");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Se puede encontrar estos recursos en:");
+        jLabel16.setText(bundle.getString("lk_find_resources_on")); // NOI18N
 
         labelFormDevLink.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         labelFormDevLink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelFormDevLink.setText("FormDev Link");
+        labelFormDevLink.setText(bundle.getString("FORMDEV LINK")); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -316,7 +334,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         jTextArea6.setColumns(1);
         jTextArea6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea6.setRows(1);
-        jTextArea6.setText("Desarrollado y mantenido por Google:");
+        jTextArea6.setText(bundle.getString("lk_developed_by_google")); // NOI18N
         jScrollPane6.setViewportView(jTextArea6);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -324,11 +342,11 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Se puede encontrar estos recursos en:");
+        jLabel17.setText(bundle.getString("lk_find_resources_on")); // NOI18N
 
         labelMaterialIconsLink.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         labelMaterialIconsLink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMaterialIconsLink.setText("Material Icons Link");
+        labelMaterialIconsLink.setText(bundle.getString("MATERIAL ICONS LINK")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -361,7 +379,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Universidad de Guayaquil");
+        jLabel18.setText(bundle.getString("lk_universidad_guayaquil")); // NOI18N
         jLabel18.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -399,7 +417,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jScrollPane7.setViewportView(jPanel1);
@@ -414,7 +432,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
         );
 
         pack();

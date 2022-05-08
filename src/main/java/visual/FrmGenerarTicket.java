@@ -1,5 +1,7 @@
+
 package visual;
-/* LICENSE 
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
@@ -8,32 +10,33 @@ package visual;
 import control.AdmSettings;
 import control.AdmTicket;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.CommonlyUsedObjects;
+import model.Commons;
 import model.Ticket;
-import model.TipoAccion;
 
-/** Generate Ticket Window 
+/** Generate Ticket Window
+ *
  * @author Clark - ClarkCodes
  * @since 1.0
  */
-public class FrmGenerarTicket extends javax.swing.JDialog 
+public class FrmGenerarTicket extends javax.swing.JDialog
 {   // Adms
     AdmTicket admTicket = AdmTicket.getAdm();
     AdmSettings admSettings = AdmSettings.getAdmSettings();
-    // Tipo de Accion
-    private TipoAccion proceder;
-    // Key exclusiva para modificar el Ticket cuando lo llamo de esa manera
-    private String keyToModify;
+    private final Commons.WindowMode proceder; // Tipo de Accion
+    private final String keyToModify; // Key exclusiva para modificar el Ticket cuando lo llamo de esa manera
     
-    public FrmGenerarTicket(java.awt.Frame parent, boolean modal, TipoAccion proceder, String keyToModify) 
+    public FrmGenerarTicket ( java.awt.Frame parent, boolean modal, Commons.WindowMode proceder, String keyToModify )
     {
-        super(parent, modal);
+        super( parent, modal );
         initComponents();
-        getRootPane().setDefaultButton(btnGenerarTicket);
-        this.setLocationRelativeTo(null);
+        tablesInitSetter();
+        getRootPane().setDefaultButton( btnGenerarTicket );
+        this.setLocationRelativeTo( null );
         this.proceder = proceder;
         this.keyToModify = keyToModify;
+        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png" ) ) ).getImage() );
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +45,7 @@ public class FrmGenerarTicket extends javax.swing.JDialog
     {
 
         jPanel1 = new javax.swing.JPanel();
-        btnGenerarCliente = new javax.swing.JButton();
+        btnGenerarRegistrarCliente = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClienteObtenido = new javax.swing.JTable();
@@ -73,8 +76,8 @@ public class FrmGenerarTicket extends javax.swing.JDialog
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Generar Ticket");
-        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_FEVM_12@8x_MODIFICADO_SINGLE_500px.png"))).getImage());
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("internationalization/Internationalization_Bundle"); // NOI18N
+        setTitle(bundle.getString("lk_generate_ticket")); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter()
         {
             public void windowOpened(java.awt.event.WindowEvent evt)
@@ -90,20 +93,21 @@ public class FrmGenerarTicket extends javax.swing.JDialog
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("lk_client"))); // NOI18N
 
-        btnGenerarCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnGenerarCliente.setText("Generar Cliente");
-        btnGenerarCliente.addActionListener(new java.awt.event.ActionListener()
+        btnGenerarRegistrarCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnGenerarRegistrarCliente.setText(bundle.getString("lk_generate_client")); // NOI18N
+        btnGenerarRegistrarCliente.setToolTipText("");
+        btnGenerarRegistrarCliente.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                btnGenerarClienteActionPerformed(evt);
+                btnGenerarRegistrarClienteActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("De Click en el botón de Generacion para obtener un perfil respectivo");
+        jLabel1.setText(bundle.getString("lk_client_generation_instruction")); // NOI18N
 
         tblClienteObtenido.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tblClienteObtenido.setModel(new javax.swing.table.DefaultTableModel(
@@ -145,7 +149,7 @@ public class FrmGenerarTicket extends javax.swing.JDialog
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Detalles- Cliente Obtenido");
+        jLabel2.setText(bundle.getString("lk_obtained_client_details")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,7 +159,7 @@ public class FrmGenerarTicket extends javax.swing.JDialog
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-                    .addComponent(btnGenerarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnGenerarRegistrarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
@@ -171,15 +175,15 @@ public class FrmGenerarTicket extends javax.swing.JDialog
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnGenerarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Pelicula"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("lk_movie"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Seleccione una Pelicula");
+        jLabel3.setText(bundle.getString("lk_select_movie")); // NOI18N
 
         cmbPeliculas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbPeliculas.addItemListener(new java.awt.event.ItemListener()
@@ -232,11 +236,11 @@ public class FrmGenerarTicket extends javax.swing.JDialog
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Detalles - Pelicula Elegida");
+        jLabel4.setText(bundle.getString("lk_selected_movie_details")); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Pelicula");
+        jLabel7.setText(bundle.getString("lk_movie")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -271,14 +275,14 @@ public class FrmGenerarTicket extends javax.swing.JDialog
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Sala"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("lk_theater"))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Seleccione una Sala");
+        jLabel5.setText(bundle.getString("lk_select_theater")); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Detalles - Sala Elegida");
+        jLabel6.setText(bundle.getString("lk_selected_theater_details")); // NOI18N
 
         cmbSalas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbSalas.addItemListener(new java.awt.event.ItemListener()
@@ -329,10 +333,10 @@ public class FrmGenerarTicket extends javax.swing.JDialog
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Sala");
+        jLabel8.setText(bundle.getString("lk_theater")); // NOI18N
 
         btnElegirAsiento.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnElegirAsiento.setText("Elegir Asiento...");
+        btnElegirAsiento.setText(bundle.getString("lk_select_seat")); // NOI18N
         btnElegirAsiento.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -379,10 +383,10 @@ public class FrmGenerarTicket extends javax.swing.JDialog
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Funcion"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("lk_cHeader_show"))); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setText("Seleccione una Hora para la Funcion");
+        jLabel9.setText(bundle.getString("lk_select_showtime_instruction")); // NOI18N
 
         cmbHorariosDisponibles.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbHorariosDisponibles.addItemListener(new java.awt.event.ItemListener()
@@ -395,11 +399,11 @@ public class FrmGenerarTicket extends javax.swing.JDialog
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Detalles - Funcion");
+        jLabel11.setText(bundle.getString("lk_show_details")); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Horarios Disponibles");
+        jLabel10.setText(bundle.getString("lk_available_showtimes")); // NOI18N
 
         tblFuncionElegida.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tblFuncionElegida.setModel(new javax.swing.table.DefaultTableModel(
@@ -479,7 +483,7 @@ public class FrmGenerarTicket extends javax.swing.JDialog
         );
 
         btnGenerarTicket.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnGenerarTicket.setText("Generar Ticket");
+        btnGenerarTicket.setText(bundle.getString("lk_generate")); // NOI18N
         btnGenerarTicket.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -489,7 +493,7 @@ public class FrmGenerarTicket extends javax.swing.JDialog
         });
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText(bundle.getString("lk_cancel")); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -532,140 +536,298 @@ public class FrmGenerarTicket extends javax.swing.JDialog
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGenerarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarClienteActionPerformed
-        admTicket.prepararCliente();
-        admTicket.llenarTablaCliente(tblClienteObtenido, admTicket.getTempReadyClient());
-    }//GEN-LAST:event_btnGenerarClienteActionPerformed
+    /** Sets the proper table model to the each table in this window
+     * @since 1.6
+     */
+    private void tablesInitSetter()
+    {   // TABLA CLIENTE OBTENIDO / TABLE CLIENT OBTAINED
+        tblClienteObtenido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                AdmSettings.getLanguageBundle().getString("lk_cHeader_id"), AdmSettings.getLanguageBundle().getString("lk_name"), AdmSettings.getLanguageBundle().getString("lk_cHeader_age"), AdmSettings.getLanguageBundle().getString("lk_cHeader_gender")
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        // TABLA PELICULA ELEGIDA - TABLE SELECTED MOVIE
+        tblPeliculaElegida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                AdmSettings.getLanguageBundle().getString("lk_code"), AdmSettings.getLanguageBundle().getString("lk_movie_genre"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_language"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_subs"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_duration")
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        // TABLA SALA ELEGIDA / TABLE SELECTED THEATER
+        tblSalaElegida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                AdmSettings.getLanguageBundle().getString("lk_code"), AdmSettings.getLanguageBundle().getString("lk_theater_number"), AdmSettings.getLanguageBundle().getString("lk_cHeader_theater_type"), AdmSettings.getLanguageBundle().getString("lk_cHeader_seats")
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        // TABLA FUNCION ELEGIDA / TABLE SELECTED SHOW
+        tblFuncionElegida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                AdmSettings.getLanguageBundle().getString("lk_code"), AdmSettings.getLanguageBundle().getString("lk_name"), AdmSettings.getLanguageBundle().getString("lk_cHeader_premiere_habitual")
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+    }
+    
+    private void btnGenerarRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarRegistrarClienteActionPerformed
+        switch ( admSettings.getClientDataMode() )
+        {
+            case Stored -> admTicket.prepararCliente( AdmSettings.DataMode.Stored );
+            case Manual ->
+            {
+                FrmDialogClientRegistration clientRegister = new FrmDialogClientRegistration( (JFrame) this.getOwner(), true );
+                clientRegister.setVisible( true );
+            }
+        }
+        
+        if ( admTicket.getTempReadyClient() != null )
+            admTicket.llenarTablaCliente( tblClienteObtenido, admTicket.getTempReadyClient() );
+    }//GEN-LAST:event_btnGenerarRegistrarClienteActionPerformed
 
     private void btnGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarTicketActionPerformed
 
-        if(admTicket.getTempReadyClient() != null)
+        if ( admTicket.getTempReadyClient() != null )
         {
-            switch(proceder)
+            switch ( proceder )
             {
                 case Creacion ->
                 {
-                    admTicket.prepararTicket(proceder);
-                    
-                    FrmConfirmarGeneracion dialogConfirmarTicket = new FrmConfirmarGeneracion((javax.swing.JFrame)this.getOwner(), true);
-                    dialogConfirmarTicket.setVisible(true);
-            
-                    if(admTicket.isTicketGeneradoExitosamente()) // Evaluamos si el Ticket se generó correctamente para cerrar esta ventana
-                    {   
-                        admTicket.setTicketGeneradoExitosamente(false); // Volvemos a este atributo a su estado normal para la proxima generacion de Ticket
+                    admTicket.prepararTicket( proceder );
+
+                    FrmConfirmarGeneracion dialogConfirmarTicket = new FrmConfirmarGeneracion( ( javax.swing.JFrame ) this.getOwner(), true );
+                    dialogConfirmarTicket.setVisible( true );
+
+                    if ( admTicket.isTicketGeneradoExitosamente() ) // Evaluamos si el Ticket se generï¿½ correctamente para cerrar esta ventana
+                    {
+                        admTicket.setTicketGeneradoExitosamente( false ); // Volvemos a este atributo a su estado normal para la proxima generacion de Ticket
+                        admTicket.setTempReadyClient( null );
                         this.dispose();
                     }
-                
+
                 }
-                case Modificacion ->
+                case Edicion ->
                 {
-                    admTicket.prepararTicket(proceder);
-                    
-                    admTicket.actualizarTicket(keyToModify); // Se llama a actualizar el Ticket para reemplazar el que había por el nuevo y modificarlo.
-                    JOptionPane.showMessageDialog(this, "Datos del Ticket actualizados con éxito.", "Ticket Modificado", JOptionPane.INFORMATION_MESSAGE);
+                    admTicket.prepararTicket( proceder );
+
+                    admTicket.actualizarTicket( keyToModify ); // Se llama a actualizar el Ticket para reemplazar el que habia por el nuevo y modificarlo.
+                    JOptionPane.showMessageDialog( this, AdmSettings.getLanguageBundle().getString( "lk_ticket_data_succesfully_updated" ), AdmSettings.getLanguageBundle().getString( "lk_ticket_updated" ), JOptionPane.INFORMATION_MESSAGE );
+                    admTicket.setTempReadyClient( null );
                     this.dispose();
                 }
+                default -> {}
             }
-            admTicket.setSaved(false); // Se setea el saved en false porque se esta alterando el HashMap con datos que no estan guardados todavia
+            admTicket.setSaved( false ); // Se setea el saved en false porque se esta alterando el HashMap con datos que no estan guardados todavia
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Genere un Cliente antes de Generar el Ticket por favor", "Cliente no generado", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog( this, AdmSettings.getLanguageBundle().getString( "lk_generate_client_before" ), AdmSettings.getLanguageBundle().getString( "lk_client_not_generated" ), JOptionPane.WARNING_MESSAGE );
         }
     }//GEN-LAST:event_btnGenerarTicketActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // Película y Horarios Disponibles
-        admTicket.getAdmPelicula().llenarComboPeliculas(cmbPeliculas);
+        // Pelicula y Horarios Disponibles
+        admTicket.getAdmPelicula().llenarComboPeliculas( cmbPeliculas, Commons.WindowMode.Creacion );
         // Sala
-        admTicket.getAdmSala().llenarComboSalas(cmbSalas);
+        admTicket.getAdmSala().llenarComboSalas( cmbSalas );
         
-        switch(proceder)
+        btnGenerarRegistrarCliente.setIcon( admSettings.getAddClientForClientManualInputDialog() );
+        
+        if ( admSettings.getClientDataMode() == AdmSettings.DataMode.Manual )
+        {
+            btnGenerarRegistrarCliente.setText( AdmSettings.getLanguageBundle().getString( "lk_client_register_client" ) );
+            admTicket.setTempReadyClient( null );
+        }
+
+        switch ( proceder )
         {
             case Creacion ->
             {   // Adecuaciones de la Ventana
-                this.setIconImage(admSettings.getAddIconForGenerateForm().getImage());
-                btnGenerarTicket.setIcon(admSettings.getAddIconForGenerateForm());
-                
+                this.setIconImage( admSettings.getAddIconForGenerateForm().getImage() );
+                btnGenerarTicket.setIcon( admSettings.getAddIconForGenerateForm() );
+
                 // Creo el Objeto Ticket Temporal que va a ser un helper para luego guardarlo en el HashMap tickets como elemento.
-                admTicket.setTicket(new Ticket());
+                admTicket.setTicket( new Ticket() );
                 // Pelicula
-                admTicket.prepararPelicula(cmbPeliculas.getItemAt(0), tblPeliculaElegida, cmbHorariosDisponibles); // incluye Horarios Disponibles
+                admTicket.prepararPelicula( cmbPeliculas.getItemAt( 0 ), tblPeliculaElegida, cmbHorariosDisponibles ); // incluye Horarios Disponibles
                 // Sala
-                admTicket.prepararSala(cmbSalas.getItemAt(0), tblSalaElegida);
+                admTicket.prepararSala( cmbSalas.getItemAt( 0 ), tblSalaElegida );
                 // Funcion
-                admTicket.prepararFuncion(cmbHorariosDisponibles.getItemAt(0), cmbPeliculas.getItemAt(0), tblFuncionElegida);
+                admTicket.prepararFuncion( cmbHorariosDisponibles.getItemAt( 0 ), cmbPeliculas.getItemAt( 0 ), tblFuncionElegida );
             }
-                
-            case Modificacion ->
+
+            case Edicion ->
             {   // Adecuaciones de la Ventana
-                this.setTitle("Modificar Ticket");
-                this.setIconImage(admSettings.getEditIconForSearchForm().getImage());
-                btnGenerarTicket.setText("Actualizar Ticket");
-                btnGenerarTicket.setIcon(admSettings.getEditIconForSearchForm());
-                
-                admTicket.setTicket(admTicket.getTickets().get(keyToModify));
+                this.setTitle( AdmSettings.getLanguageBundle().getString( "lk_edit_ticket" ) );
+                this.setIconImage( admSettings.getEditIconForSearchForm().getImage() );
+                btnGenerarTicket.setText( AdmSettings.getLanguageBundle().getString( "lk_update" ) );
+                btnGenerarTicket.setIcon( admSettings.getEditIconForSearchForm() );
+
+                admTicket.setTicket( admTicket.getTickets().get( keyToModify ) );
                 // Pelicula
-                cmbPeliculas.setSelectedItem(admTicket.getTicket().getPelicula().getNombre());
-                admTicket.prepararPelicula((String)cmbPeliculas.getSelectedItem(), tblPeliculaElegida, cmbHorariosDisponibles);
+                cmbPeliculas.setSelectedItem( admTicket.getTicket().getPelicula().getNombre() );
+                admTicket.prepararPelicula( ( String ) cmbPeliculas.getSelectedItem(), tblPeliculaElegida, cmbHorariosDisponibles );
                 // Sala
-                cmbSalas.setSelectedItem(admTicket.getTicket().getSala().getNombre());
-                admTicket.prepararSala((String)cmbSalas.getSelectedItem(), tblSalaElegida);
+                cmbSalas.setSelectedItem( admTicket.getTicket().getSala().getNombre() );
+                admTicket.prepararSala( ( String ) cmbSalas.getSelectedItem(), tblSalaElegida );
                 // Funcion
-                cmbHorariosDisponibles.setSelectedItem(admTicket.getTicket().getFuncion().getHorarioElegido().format(CommonlyUsedObjects.getFormatoDateTime(CommonlyUsedObjects.TypeFormatoDateTime.HorasMinutos)));
-                admTicket.prepararFuncion(cmbHorariosDisponibles.getSelectedItem().toString(), cmbPeliculas.getSelectedItem().toString(), tblFuncionElegida);
+                cmbHorariosDisponibles.setSelectedItem( admTicket.getTicket().getFuncion().getHorarioElegido().format(Commons.getFormatoDateTime(Commons.TypeFormatoDateTime.HorasMinutos ) ) );
+                admTicket.prepararFuncion( cmbHorariosDisponibles.getSelectedItem().toString(), cmbPeliculas.getSelectedItem().toString(), tblFuncionElegida );
                 // Cliente
-                admTicket.setTempReadyClient(admTicket.getTicket().getCliente());
-                admTicket.llenarTablaCliente(tblClienteObtenido, admTicket.getTempReadyClient());
+                admTicket.setTempReadyClient( admTicket.getTicket().getCliente() );
+                admTicket.llenarTablaCliente( tblClienteObtenido, admTicket.getTempReadyClient() );
             }
+            default -> {}
         }
-        
+
     }//GEN-LAST:event_formWindowOpened
 
     private void cmbPeliculasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPeliculasItemStateChanged
         // Pelicula
-        admTicket.prepararPelicula(cmbPeliculas.getSelectedItem().toString(), tblPeliculaElegida, cmbHorariosDisponibles);
+        admTicket.prepararPelicula( cmbPeliculas.getSelectedItem().toString(), tblPeliculaElegida, cmbHorariosDisponibles );
         // Funcion
-        admTicket.prepararFuncion((String)cmbHorariosDisponibles.getSelectedItem(), cmbPeliculas.getSelectedItem().toString(), tblFuncionElegida);
+        admTicket.prepararFuncion( cmbHorariosDisponibles.getSelectedItem().toString(), cmbPeliculas.getSelectedItem().toString(), tblFuncionElegida );
     }//GEN-LAST:event_cmbPeliculasItemStateChanged
 
     private void cmbSalasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSalasItemStateChanged
-        admTicket.prepararSala((String)cmbSalas.getSelectedItem(), tblSalaElegida);
+        admTicket.prepararSala( cmbSalas.getSelectedItem().toString(), tblSalaElegida );
     }//GEN-LAST:event_cmbSalasItemStateChanged
 
     private void btnElegirAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElegirAsientoActionPerformed
 //        FrmElegirAsientoFEVM dialogElegirAsiento = new FrmElegirAsientoFEVM((javax.swing.JFrame)this.getOwner(), true);
 //        dialogElegirAsiento.setVisible(true);
-        JOptionPane.showMessageDialog(this, "La elección manual del Asiento es funcionalidad que se encuentra todavía en desarrollo, por ahora se está trabajando con datos quemados o guardados, pero es posible que este disponible en una versión posterior", "Próximamente", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog( this, AdmSettings.getLanguageBundle().getString( "lk_feature_na" ), AdmSettings.getLanguageBundle().getString( "lk_coming_soon" ), JOptionPane.INFORMATION_MESSAGE );
     }//GEN-LAST:event_btnElegirAsientoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        if ( admTicket.getTempReadyClient() != null )
+            admTicket.setTempReadyClient( null );
+        
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cmbHorariosDisponiblesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbHorariosDisponiblesItemStateChanged
-        if((String)cmbHorariosDisponibles.getSelectedItem() != null)
-            admTicket.prepararFuncion((String)cmbHorariosDisponibles.getSelectedItem(), (String)cmbPeliculas.getSelectedItem(), tblFuncionElegida);
+        if ( ( String ) cmbHorariosDisponibles.getSelectedItem() != null )
+            admTicket.prepararFuncion( ( String ) cmbHorariosDisponibles.getSelectedItem(), ( String ) cmbPeliculas.getSelectedItem(), tblFuncionElegida );
     }//GEN-LAST:event_cmbHorariosDisponiblesItemStateChanged
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER )
             btnGenerarTicket.doClick();
-        
-        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE)
+
+        if ( evt.getKeyCode() == KeyEvent.VK_ESCAPE )
             dispose();
     }//GEN-LAST:event_formKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnElegirAsiento;
-    private javax.swing.JButton btnGenerarCliente;
+    private javax.swing.JButton btnGenerarRegistrarCliente;
     private javax.swing.JButton btnGenerarTicket;
     private javax.swing.JComboBox<String> cmbHorariosDisponibles;
     private javax.swing.JComboBox<String> cmbPeliculas;

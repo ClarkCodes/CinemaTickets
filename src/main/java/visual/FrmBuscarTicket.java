@@ -1,41 +1,60 @@
+
 package visual;
-/* LICENSE 
+
+/* LICENSE
  * Creative Commons Zero v1.0 Universal
  * CC0 1.0 Universal
  * Please check out the license file in this project's root folder.
  */
 // Imports
+import control.AdmPelicula;
 import control.AdmSettings;
 import control.AdmTicket;
 import control.Validacion;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableColumnModel;
-import model.TipoAccion;
-import model.TipoFiltroEdadGenero;
-import model.TipoFiltroSoloBusqueda;
-import model.CommonlyUsedObjects;
+import model.Commons;
+import model.FilterValue;
 
-/** Search-List Tickets Window 
- * @author Clark - ClarkCodes */
-public class FrmBuscarTicket extends javax.swing.JDialog 
+/** Search-List Tickets Window
+ * @author Clark - ClarkCodes 
+ * @since 1.0
+ * */
+public class FrmBuscarTicket extends javax.swing.JDialog
 {
-    // AdmTicket
-    AdmTicket admTicket = AdmTicket.getAdm();
-    AdmSettings admSettings = AdmSettings.getAdmSettings();
-    CommonlyUsedObjects common = CommonlyUsedObjects.getAdm();
+    // Adms
+    private final AdmTicket admTicket;
+    private final AdmSettings admSettings;
+
+    private FiltersGroups currentFiltersMacroGroupSelected; // Current Filters Selected, used to enable or disable filters following user's choosing
+    private FiltersGroups currentFiltersMovieSubGroupSelected;
     
-    // Tipo de Busqueda: Si es solo para buscar o para Modificar, se utiliza este mismo formulario
-    private TipoAccion tipoBusqueda;
-    
-    public FrmBuscarTicket(java.awt.Frame parent, boolean modal, TipoAccion tipoBusqueda) 
+    java.util.ResourceBundle bundle = AdmSettings.getLanguageBundle();
+
+    public FrmBuscarTicket ( java.awt.Frame parent, boolean modal )
     {
-        super(parent, modal);
+        super( parent, modal );
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.tipoBusqueda = tipoBusqueda;
-        btnBuscar.setIcon(admSettings.getSearchIconForSearchForm());
+        tableTicketsModelSetter();
+        this.setLocationRelativeTo( null );
+        this.currentFiltersMacroGroupSelected = FiltersGroups.Basics;
+        this.currentFiltersMovieSubGroupSelected = FiltersGroups.MovieName;
+        admTicket = AdmTicket.getAdm();
+        admSettings = AdmSettings.getAdmSettings();
+        btnBuscar.setIcon( admSettings.getSearchIconForSearchForm() );
+        this.setIconImage( admSettings.getSearchIconForSearchForm().getImage() );
+    }
+    /** Enum constants to specify the filters group to enable
+     * @since 1.6
+     */
+    private enum FiltersGroups
+    {
+        Basics,
+        Client,
+        Movie,
+        MovieName,
+        MovieOthers
     }
 
     @SuppressWarnings("unchecked")
@@ -43,52 +62,89 @@ public class FrmBuscarTicket extends javax.swing.JDialog
     private void initComponents()
     {
 
-        SubtitulosGroup = new javax.swing.ButtonGroup();
+        bgPeliculaGroup = new javax.swing.ButtonGroup();
+        bgMacroCriteriaGroup = new javax.swing.ButtonGroup();
+        popUpTicketsTable = new javax.swing.JPopupMenu();
+        popUpMnuEdit = new javax.swing.JMenuItem();
+        popUpMnuDelete = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBusquedaTickets = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        lblCodigoTicket = new javax.swing.JLabel();
-        txtPrecioTicket = new javax.swing.JTextField();
-        lblIdCliente = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        checkEdadCliente = new javax.swing.JCheckBox();
-        panelEdadCliente = new javax.swing.JPanel();
+        panelCliente = new javax.swing.JPanel();
+        lblGeneroCliente = new javax.swing.JLabel();
+        cmbFiltroGeneroCliente = new javax.swing.JComboBox<>();
         lblEdad = new javax.swing.JLabel();
         cmbFiltroEdad = new javax.swing.JComboBox<>();
-        ftxEdad = new javax.swing.JFormattedTextField();
         lblAnios = new javax.swing.JLabel();
-        checkGeneroCliente = new javax.swing.JCheckBox();
-        panelGeneroCliente = new javax.swing.JPanel();
-        lblGenero = new javax.swing.JLabel();
-        cmbFiltroGenero = new javax.swing.JComboBox<>();
+        spinnerEdad = new javax.swing.JSpinner();
         panelPelicula = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        lblNombrePelicula = new javax.swing.JLabel();
         cmbFiltroPelicula = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
+        lblGeneroPelicula = new javax.swing.JLabel();
         cmbFiltroGeneroPelicula = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
+        lblIdiomaPelicula = new javax.swing.JLabel();
         cmbFiltroIdiomaPelicula = new javax.swing.JComboBox<>();
-        panelSubtitulos = new javax.swing.JPanel();
-        rdoSubCon = new javax.swing.JRadioButton();
-        rdoSubSin = new javax.swing.JRadioButton();
-        rdoSubTodas = new javax.swing.JRadioButton();
-        checkPelicula = new javax.swing.JCheckBox();
+        cmbFiltroSubtitulosPelicula = new javax.swing.JComboBox<>();
+        lblSubtitulosPelicula = new javax.swing.JLabel();
+        lblSearchFor = new javax.swing.JLabel();
+        rbNombrePelicula = new javax.swing.JRadioButton();
+        rbOtrosPelicula = new javax.swing.JRadioButton();
         btnBuscar = new javax.swing.JButton();
+        panelBasicos = new javax.swing.JPanel();
+        lblPrecioTicket = new javax.swing.JLabel();
+        lblCedulaCliente = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
+        txtPrecioTicket = new javax.swing.JTextField();
+        rbBasicos = new javax.swing.JRadioButton();
+        rbCliente = new javax.swing.JRadioButton();
+        rbPelicula = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         lblCantidadTickets = new javax.swing.JLabel();
-        btnModificarEliminar = new javax.swing.JButton();
+
+        popUpTicketsTable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        popUpMnuEdit.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("internationalization/Internationalization_Bundle"); // NOI18N
+        popUpMnuEdit.setText(bundle.getString("lk_edit")); // NOI18N
+        popUpMnuEdit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                popUpMnuEditActionPerformed(evt);
+            }
+        });
+        popUpTicketsTable.add(popUpMnuEdit);
+
+        popUpMnuDelete.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        popUpMnuDelete.setText(bundle.getString("lk_delete")); // NOI18N
+        popUpMnuDelete.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                popUpMnuDeleteActionPerformed(evt);
+            }
+        });
+        popUpTicketsTable.add(popUpMnuDelete);
+
+        popUpTicketsTable.getAccessibleContext().setAccessibleDescription("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar Ticket");
-        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_FEVM_12@8x_MODIFICADO_SINGLE_500px.png"))).getImage());
+        setTitle(bundle.getString("lk_search_ticket")); // NOI18N
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter()
         {
             public void windowOpened(java.awt.event.WindowEvent evt)
             {
                 formWindowOpened(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                formKeyReleased(evt);
             }
         });
 
@@ -100,7 +156,450 @@ public class FrmBuscarTicket extends javax.swing.JDialog
             },
             new String []
             {
-                "N°", "Código-Ticket", "Precio", "Cliente", "Cedula", "Edad", "Sexo", "Pelicula", "Genero", "Idioma", "Idioma-Subtitulos", "Duracion", "Estreno/Habitual", "Sala", "N° de Sala", "Tipo de Sala", "Asiento/s", "Funcion", "Horario Elegido"
+
+            }
+        ));
+        tblBusquedaTickets.setComponentPopupMenu(popUpTicketsTable);
+        tblBusquedaTickets.setRowHeight(40);
+        tblBusquedaTickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblBusquedaTickets.setShowGrid(false);
+        tblBusquedaTickets.getTableHeader().setResizingAllowed(false);
+        tblBusquedaTickets.getTableHeader().setReorderingAllowed(false);
+        tblBusquedaTickets.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
+                tblBusquedaTicketsMousePressed(evt);
+            }
+        });
+        tblBusquedaTickets.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                tblBusquedaTicketsKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblBusquedaTickets);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText(bundle.getString("lk_search_ticket_details")); // NOI18N
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_search_filter_by"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel7.setText(bundle.getString("lk_search_search_criterias")); // NOI18N
+
+        panelCliente.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_client"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+
+        lblGeneroCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblGeneroCliente.setText(bundle.getString("lk_gender_label")); // NOI18N
+
+        cmbFiltroGeneroCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroGeneroCliente.setNextFocusableComponent(btnBuscar);
+
+        lblEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblEdad.setText(bundle.getString("lk_age_label")); // NOI18N
+
+        cmbFiltroEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroEdad.setNextFocusableComponent(spinnerEdad);
+        cmbFiltroEdad.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                cmbFiltroEdadItemStateChanged(evt);
+            }
+        });
+
+        lblAnios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblAnios.setText(bundle.getString("lk_search_years")); // NOI18N
+        lblAnios.setEnabled(false);
+
+        spinnerEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        spinnerEdad.setEnabled(false);
+        spinnerEdad.setNextFocusableComponent(cmbFiltroGeneroCliente);
+        spinnerEdad.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                spinnerEdadKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelClienteLayout = new javax.swing.GroupLayout(panelCliente);
+        panelCliente.setLayout(panelClienteLayout);
+        panelClienteLayout.setHorizontalGroup(
+            panelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblEdad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spinnerEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAnios)
+                .addGap(18, 18, 18)
+                .addComponent(lblGeneroCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroGeneroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelClienteLayout.setVerticalGroup(
+            panelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblGeneroCliente)
+                        .addComponent(cmbFiltroGeneroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbFiltroEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblEdad)
+                        .addComponent(lblAnios)
+                        .addComponent(spinnerEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        panelPelicula.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_movie"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+
+        lblNombrePelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblNombrePelicula.setText(bundle.getString("lk_name_label")); // NOI18N
+        lblNombrePelicula.setEnabled(panelPelicula.isEnabled());
+
+        cmbFiltroPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroPelicula.setEnabled(panelPelicula.isEnabled());
+        cmbFiltroPelicula.setNextFocusableComponent(btnBuscar);
+
+        lblGeneroPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblGeneroPelicula.setText(bundle.getString("lk_movie_genre")); // NOI18N
+        lblGeneroPelicula.setEnabled(panelPelicula.isEnabled());
+
+        cmbFiltroGeneroPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroGeneroPelicula.setEnabled(panelPelicula.isEnabled());
+        cmbFiltroGeneroPelicula.setNextFocusableComponent(cmbFiltroIdiomaPelicula);
+
+        lblIdiomaPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblIdiomaPelicula.setText(bundle.getString("lk_language_label")); // NOI18N
+        lblIdiomaPelicula.setEnabled(panelPelicula.isEnabled());
+
+        cmbFiltroIdiomaPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroIdiomaPelicula.setEnabled(panelPelicula.isEnabled());
+        cmbFiltroIdiomaPelicula.setNextFocusableComponent(cmbFiltroSubtitulosPelicula);
+
+        cmbFiltroSubtitulosPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cmbFiltroSubtitulosPelicula.setEnabled(panelPelicula.isEnabled());
+        cmbFiltroSubtitulosPelicula.setNextFocusableComponent(btnBuscar);
+
+        lblSubtitulosPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblSubtitulosPelicula.setText(bundle.getString("lk_subtitles_label")); // NOI18N
+        lblSubtitulosPelicula.setEnabled(panelPelicula.isEnabled());
+
+        lblSearchFor.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblSearchFor.setText(bundle.getString("lk_search_search_by_label")); // NOI18N
+        lblSearchFor.setEnabled(panelPelicula.isEnabled());
+
+        bgPeliculaGroup.add(rbNombrePelicula);
+        rbNombrePelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rbNombrePelicula.setSelected(true);
+        rbNombrePelicula.setText(bundle.getString("lk_name")); // NOI18N
+        rbNombrePelicula.setNextFocusableComponent(rbOtrosPelicula);
+        rbNombrePelicula.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                rbNombrePeliculaItemStateChanged(evt);
+            }
+        });
+
+        bgPeliculaGroup.add(rbOtrosPelicula);
+        rbOtrosPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rbOtrosPelicula.setText(bundle.getString("lk_search_others")); // NOI18N
+        rbOtrosPelicula.setNextFocusableComponent(rbNombrePelicula);
+        rbOtrosPelicula.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                rbOtrosPeliculaItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelPeliculaLayout = new javax.swing.GroupLayout(panelPelicula);
+        panelPelicula.setLayout(panelPeliculaLayout);
+        panelPeliculaLayout.setHorizontalGroup(
+            panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPeliculaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSearchFor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbNombrePelicula)
+                    .addComponent(rbOtrosPelicula))
+                .addGap(18, 18, 18)
+                .addComponent(lblNombrePelicula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblGeneroPelicula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroGeneroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblIdiomaPelicula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroIdiomaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblSubtitulosPelicula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbFiltroSubtitulosPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+        panelPeliculaLayout.setVerticalGroup(
+            panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPeliculaLayout.createSequentialGroup()
+                .addComponent(rbNombrePelicula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbOtrosPelicula)
+                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(panelPeliculaLayout.createSequentialGroup()
+                .addGroup(panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPeliculaLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(lblSearchFor))
+                    .addGroup(panelPeliculaLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombrePelicula)
+                            .addComponent(cmbFiltroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblGeneroPelicula)
+                            .addComponent(lblIdiomaPelicula)
+                            .addComponent(cmbFiltroIdiomaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbFiltroGeneroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSubtitulosPelicula)
+                            .addComponent(cmbFiltroSubtitulosPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        btnBuscar.setText(bundle.getString("lk_search")); // NOI18N
+        btnBuscar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        panelBasicos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("lk_search_basics"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+
+        lblPrecioTicket.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblPrecioTicket.setText(bundle.getString("lk_search_ticket_price_label")); // NOI18N
+
+        lblCedulaCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblCedulaCliente.setText(bundle.getString("lk_client_id_label")); // NOI18N
+
+        txtCedula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCedula.setNextFocusableComponent(btnBuscar);
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                txtCedulaKeyReleased(evt);
+            }
+        });
+
+        txtPrecioTicket.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtPrecioTicket.setNextFocusableComponent(txtCedula);
+        txtPrecioTicket.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                txtPrecioTicketKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBasicosLayout = new javax.swing.GroupLayout(panelBasicos);
+        panelBasicos.setLayout(panelBasicosLayout);
+        panelBasicosLayout.setHorizontalGroup(
+            panelBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBasicosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblPrecioTicket)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPrecioTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblCedulaCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        panelBasicosLayout.setVerticalGroup(
+            panelBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBasicosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioTicket)
+                    .addComponent(lblCedulaCliente)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        bgMacroCriteriaGroup.add(rbBasicos);
+        rbBasicos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rbBasicos.setSelected(true);
+        rbBasicos.setText(bundle.getString("lk_search_basics")); // NOI18N
+        rbBasicos.setNextFocusableComponent(rbCliente);
+        rbBasicos.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                rbBasicosItemStateChanged(evt);
+            }
+        });
+
+        bgMacroCriteriaGroup.add(rbCliente);
+        rbCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rbCliente.setText(bundle.getString("lk_client")); // NOI18N
+        rbCliente.setNextFocusableComponent(rbPelicula);
+        rbCliente.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                rbClienteItemStateChanged(evt);
+            }
+        });
+
+        bgMacroCriteriaGroup.add(rbPelicula);
+        rbPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        rbPelicula.setText(bundle.getString("lk_movie")); // NOI18N
+        rbPelicula.setNextFocusableComponent(rbBasicos);
+        rbPelicula.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                rbPeliculaItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbBasicos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbCliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbPelicula))
+                            .addComponent(panelBasicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(rbBasicos)
+                    .addComponent(rbCliente)
+                    .addComponent(rbPelicula))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelBasicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setText(bundle.getString("lk_search_listed_tickets_quantity")); // NOI18N
+
+        lblCantidadTickets.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lblCantidadTickets.setText(bundle.getString("______")); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblCantidadTickets)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblCantidadTickets))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        popUpMnuEdit.setIcon( admSettings.getEditIcon() );
+        popUpMnuDelete.setIcon( admSettings.getDeleteIcon() );
+        admTicket.setSpinnerRange( spinnerEdad );
+        enableDisableClientFilters( rbCliente.isSelected() );
+        enableDisableMovieFilters( rbPelicula.isSelected() );
+        admTicket.getAdmCliente().fillGenders( cmbFiltroGeneroCliente, Commons.WindowMode.Busqueda);
+        admTicket.getAdmCliente().fillClientAgeCriterias( cmbFiltroEdad );
+        admTicket.getAdmPelicula().llenarComboPeliculas( cmbFiltroPelicula, Commons.WindowMode.Busqueda );
+        admTicket.getAdmPelicula().llenarComboGenerosPeliculas( cmbFiltroGeneroPelicula );
+        admTicket.getAdmPelicula().llenarComboIdiomasPeliculas( cmbFiltroIdiomaPelicula );
+        admTicket.getAdmPelicula().llenarComboSubtitulosPeliculas( cmbFiltroSubtitulosPelicula );
+        admTicket.buscarTicket( tblBusquedaTickets );
+        rbBasicos.doClick();
+
+        updateTicketsCount();
+    }//GEN-LAST:event_formWindowOpened
+    
+    /** Sets the proper table model to the tickets search table
+     * @since 1.6
+     */
+    private void tableTicketsModelSetter()
+    {
+        tblBusquedaTickets.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                "N°", AdmSettings.getLanguageBundle().getString("lk_cHeader_ticket_code"), AdmSettings.getLanguageBundle().getString("lk_cHeader_price"), AdmSettings.getLanguageBundle().getString("lk_client"), AdmSettings.getLanguageBundle().getString("lk_cHeader_id"), AdmSettings.getLanguageBundle().getString("lk_cHeader_age"), AdmSettings.getLanguageBundle().getString("lk_cHeader_gender"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_genre"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_language"), AdmSettings.getLanguageBundle().getString("lk_cHeader_subs_language"), AdmSettings.getLanguageBundle().getString("lk_cHeader_movie_duration"), AdmSettings.getLanguageBundle().getString("lk_cHeader_premiere_habitual"), AdmSettings.getLanguageBundle().getString("lk_cHeader_theater"), AdmSettings.getLanguageBundle().getString("lk_cHeader_theater_number"), AdmSettings.getLanguageBundle().getString("lk_cHeader_theater_type"), AdmSettings.getLanguageBundle().getString("lk_cHeader_seats"), AdmSettings.getLanguageBundle().getString("lk_cHeader_show"), AdmSettings.getLanguageBundle().getString("lk_cHeader_selected_showtime")
             }
         )
         {
@@ -123,675 +622,551 @@ public class FrmBuscarTicket extends javax.swing.JDialog
                 return canEdit [columnIndex];
             }
         });
-        tblBusquedaTickets.setRowHeight(40);
-        tblBusquedaTickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblBusquedaTickets.setShowGrid(false);
-        tblBusquedaTickets.getTableHeader().setResizingAllowed(false);
-        tblBusquedaTickets.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tblBusquedaTickets);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Detalles del Ticket");
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtrar por..."));
-
-        lblCodigoTicket.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblCodigoTicket.setText("Precio del Ticket:   $");
-
-        txtPrecioTicket.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtPrecioTicket.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                txtPrecioTicketKeyReleased(evt);
-            }
-        });
-
-        lblIdCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblIdCliente.setText("Cedula del Cliente: ");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel7.setText("Criterios adicionales de Busqueda: ");
-
-        checkEdadCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        checkEdadCliente.setText("Edad del Cliente");
-        checkEdadCliente.setEnabled(false);
-        checkEdadCliente.addItemListener(new java.awt.event.ItemListener()
-        {
-            public void itemStateChanged(java.awt.event.ItemEvent evt)
-            {
-                checkEdadClienteItemStateChanged(evt);
-            }
-        });
-
-        panelEdadCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Edad del Cliente"));
-        panelEdadCliente.setEnabled(false);
-
-        lblEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblEdad.setText("Edad: ");
-        lblEdad.setEnabled(false);
-
-        cmbFiltroEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbFiltroEdad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clientes con...", "Clientes mayores de...", "Clientes menores de..." }));
-        cmbFiltroEdad.setEnabled(false);
-
-        ftxEdad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        ftxEdad.setEnabled(false);
-        ftxEdad.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
-        ftxEdad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        ftxEdad.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                ftxEdadKeyReleased(evt);
-            }
-        });
-
-        lblAnios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblAnios.setText("años");
-        lblAnios.setEnabled(false);
-
-        javax.swing.GroupLayout panelEdadClienteLayout = new javax.swing.GroupLayout(panelEdadCliente);
-        panelEdadCliente.setLayout(panelEdadClienteLayout);
-        panelEdadClienteLayout.setHorizontalGroup(
-            panelEdadClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEdadClienteLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblEdad)
-                .addGap(18, 18, 18)
-                .addComponent(cmbFiltroEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ftxEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblAnios)
-                .addContainerGap())
-        );
-        panelEdadClienteLayout.setVerticalGroup(
-            panelEdadClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEdadClienteLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(panelEdadClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbFiltroEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftxEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEdad)
-                    .addComponent(lblAnios))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        checkGeneroCliente.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        checkGeneroCliente.setText("Género del Cliente");
-        checkGeneroCliente.setEnabled(false);
-        checkGeneroCliente.addChangeListener(new javax.swing.event.ChangeListener()
-        {
-            public void stateChanged(javax.swing.event.ChangeEvent evt)
-            {
-                checkGeneroClienteStateChanged(evt);
-            }
-        });
-
-        panelGeneroCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Género del Cliente"));
-        panelGeneroCliente.setEnabled(false);
-
-        lblGenero.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblGenero.setText("Genero: ");
-        lblGenero.setEnabled(false);
-
-        cmbFiltroGenero.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbFiltroGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
-        cmbFiltroGenero.setEnabled(false);
-
-        javax.swing.GroupLayout panelGeneroClienteLayout = new javax.swing.GroupLayout(panelGeneroCliente);
-        panelGeneroCliente.setLayout(panelGeneroClienteLayout);
-        panelGeneroClienteLayout.setHorizontalGroup(
-            panelGeneroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGeneroClienteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblGenero)
-                .addGap(18, 18, 18)
-                .addComponent(cmbFiltroGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelGeneroClienteLayout.setVerticalGroup(
-            panelGeneroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGeneroClienteLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(panelGeneroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGenero)
-                    .addComponent(cmbFiltroGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-
-        panelPelicula.setBorder(javax.swing.BorderFactory.createTitledBorder("Pelicula"));
-        panelPelicula.setEnabled(false);
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel9.setText("Nombre: ");
-        jLabel9.setEnabled(panelPelicula.isEnabled());
-
-        cmbFiltroPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbFiltroPelicula.setEnabled(panelPelicula.isEnabled());
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel10.setText("Genero: ");
-        jLabel10.setEnabled(panelPelicula.isEnabled());
-
-        cmbFiltroGeneroPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbFiltroGeneroPelicula.setEnabled(panelPelicula.isEnabled());
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel11.setText("Idioma: ");
-        jLabel11.setEnabled(panelPelicula.isEnabled());
-
-        cmbFiltroIdiomaPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbFiltroIdiomaPelicula.setEnabled(panelPelicula.isEnabled());
-
-        panelSubtitulos.setBorder(javax.swing.BorderFactory.createTitledBorder("Subtitulos"));
-        panelSubtitulos.setEnabled(panelPelicula.isEnabled());
-
-        SubtitulosGroup.add(rdoSubCon);
-        rdoSubCon.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        rdoSubCon.setText("Con Subtitulos");
-        rdoSubCon.setEnabled(panelSubtitulos.isEnabled());
-
-        SubtitulosGroup.add(rdoSubSin);
-        rdoSubSin.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        rdoSubSin.setText("Sin Subtitulos");
-        rdoSubSin.setEnabled(panelSubtitulos.isEnabled());
-
-        SubtitulosGroup.add(rdoSubTodas);
-        rdoSubTodas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        rdoSubTodas.setSelected(true);
-        rdoSubTodas.setText("Todas");
-        rdoSubTodas.setEnabled(panelSubtitulos.isEnabled());
-
-        javax.swing.GroupLayout panelSubtitulosLayout = new javax.swing.GroupLayout(panelSubtitulos);
-        panelSubtitulos.setLayout(panelSubtitulosLayout);
-        panelSubtitulosLayout.setHorizontalGroup(
-            panelSubtitulosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSubtitulosLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(rdoSubTodas)
-                .addGap(18, 18, 18)
-                .addComponent(rdoSubCon)
-                .addGap(18, 18, 18)
-                .addComponent(rdoSubSin)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelSubtitulosLayout.setVerticalGroup(
-            panelSubtitulosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSubtitulosLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(panelSubtitulosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoSubTodas)
-                    .addComponent(rdoSubCon)
-                    .addComponent(rdoSubSin))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout panelPeliculaLayout = new javax.swing.GroupLayout(panelPelicula);
-        panelPelicula.setLayout(panelPeliculaLayout);
-        panelPeliculaLayout.setHorizontalGroup(
-            panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPeliculaLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addComponent(cmbFiltroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addComponent(cmbFiltroGeneroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addComponent(cmbFiltroIdiomaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelSubtitulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelPeliculaLayout.setVerticalGroup(
-            panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPeliculaLayout.createSequentialGroup()
-                .addGroup(panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPeliculaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelSubtitulos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelPeliculaLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(panelPeliculaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(cmbFiltroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(cmbFiltroIdiomaPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbFiltroGeneroPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(11, Short.MAX_VALUE))
-        );
-
-        checkPelicula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        checkPelicula.setText("Pelicula");
-        checkPelicula.setEnabled(false);
-
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-
-        txtCedula.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtCedula.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                txtCedulaKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(checkEdadCliente)
-                                .addGap(18, 18, 18)
-                                .addComponent(checkGeneroCliente)
-                                .addGap(18, 18, 18)
-                                .addComponent(checkPelicula))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCodigoTicket)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPrecioTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblIdCliente)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(91, 91, 91)
-                        .addComponent(panelEdadCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(panelGeneroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(panelPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(checkEdadCliente)
-                            .addComponent(checkGeneroCliente)
-                            .addComponent(checkPelicula))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCodigoTicket)
-                            .addComponent(lblIdCliente)
-                            .addComponent(txtPrecioTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelEdadCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelGeneroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelPelicula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("Cantidad de Tickets Listados: ");
-
-        lblCantidadTickets.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblCantidadTickets.setText("______");
-
-        btnModificarEliminar.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        btnModificarEliminar.setText("Modificar");
-        btnModificarEliminar.setEnabled(false);
-        btnModificarEliminar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                btnModificarEliminarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblCantidadTickets)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnModificarEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnModificarEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblCantidadTickets))
-                .addContainerGap())
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        switch(tipoBusqueda) // La forma por defecto en la que estï¿½ diseï¿½ado el Formulario es para Solo Busquedas, 
-        {                   // los controles de Modificaciï¿½n estan deshabilitados, por ello cuando entramos en modo Modificacion los habilitamos y deshabilitamos algunos de Solo Busqueda
-            case SoloBusqueda ->
-            {
-                txtPrecioTicket.requestFocusInWindow();
-                this.btnModificarEliminar.setIcon(admSettings.getEditIconForSearchForm());
-                this.setIconImage(admSettings.getSearchIconForSearchForm().getImage());
-            }   
-             
-            case Modificacion ->
-            {   // Deshabilitamos los controles de Solo Busqueda
-                lblCodigoTicket.setEnabled(false);
-                lblIdCliente.setEnabled(false);
-                txtPrecioTicket.setEnabled(false);
-                txtCedula.setEnabled(false);
-                // Habilitamos los controles de Modificacion
-                checkEdadCliente.setEnabled(true);
-                checkGeneroCliente.setEnabled(true);
-                checkEdadCliente.setSelected(true);
-                checkGeneroCliente.setSelected(true);
-                btnModificarEliminar.setEnabled(true);
-                panelEdadCliente.setEnabled(true);
-                panelGeneroCliente.setEnabled(true);
-                this.setTitle("Modificar Ticket");
-                this.setIconImage(admSettings.getEditIconForSearchForm().getImage());
-                this.btnModificarEliminar.setIcon(admSettings.getEditIconForSearchForm());   
-            }
-            
-            case Eliminacion ->
-            {   // Deshabilitamos los controles de Solo Busqueda
-                lblCodigoTicket.setEnabled(false);
-                lblIdCliente.setEnabled(false);
-                txtPrecioTicket.setEnabled(false);
-                txtCedula.setEnabled(false);
-                // Habilitamos los filtros para Eliminacion
-                checkEdadCliente.setEnabled(true);
-                checkGeneroCliente.setEnabled(true);
-                checkEdadCliente.setSelected(true);
-                checkGeneroCliente.setSelected(true);
-                btnModificarEliminar.setEnabled(true);
-                btnModificarEliminar.setText("Eliminar");
-                panelEdadCliente.setEnabled(true);
-                panelGeneroCliente.setEnabled(true);
-                this.setTitle("Eliminar Ticket");
-                this.setIconImage(admSettings.getDeleteIconForSearchForm().getImage());
-                this.btnModificarEliminar.setIcon(admSettings.getDeleteIconForSearchForm());   
-            }
-        }
-        
-        admTicket.getAdmPelicula().llenarComboPeliculas(cmbFiltroPelicula);
-        admTicket.getAdmPelicula().llenarComboGenerosPeliculas(cmbFiltroGeneroPelicula);
-        admTicket.getAdmPelicula().llenarComboIdiomasPeliculas(cmbFiltroIdiomaPelicula);
-        admTicket.buscarTicket(tblBusquedaTickets);
-        
-        updateTicketsCount();
-        
-        if(admTicket.getTickets().isEmpty()) // Marcado para Remosion
-        {
-            JOptionPane.showMessageDialog(this, "Todavia no se han agregado Tickets que pueda buscar.", "Sin elementos", JOptionPane.INFORMATION_MESSAGE);
-            btnBuscar.setEnabled(false);
-            btnModificarEliminar.setEnabled(false);
-        }
-    }//GEN-LAST:event_formWindowOpened
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) 
+    }
+    
+    private void btnBuscarActionPerformed ( java.awt.event.ActionEvent evt )
     {//GEN-FIRST:event_btnBuscarActionPerformed
-        switch(tipoBusqueda)
+        switch ( currentFiltersMacroGroupSelected )
         {
-            case SoloBusqueda ->
-            {
-                String cedula = "";
-                double precio = 0.0;
-                boolean cedulaValida = false, precioValido = false;
-                // Validaciones
-                if(!txtPrecioTicket.getText().isBlank()) 
-                    precio = Validacion.leerReal(txtPrecioTicket.getText(), "El Precio debe ser un numero Real decimal. Ingreselo nuevamente", "Precio no valido");
-                if(Validacion.isDatoValido())
-                    precioValido = true;
-                if(!txtCedula.getText().isBlank())
-                    cedula = Validacion.validarStrings(txtCedula.getText(), Validacion.TipoEntradaString.Cedula);
-                if(Validacion.isDatoValido())
-                    cedulaValida = true;
-                // Posibles escenarios
-                if(txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank()) // Si los dos estan vacios
-                {
-                    admTicket.buscarTicket(tblBusquedaTickets);
-                }
-                else
-                {
-                    if(txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida) // Si el precio esta vacio y la cedula tiene algo
-                    {
-                        admTicket.buscarTicket(tblBusquedaTickets, cedula, precio, TipoFiltroSoloBusqueda.Cedula);
-                    }
-                    else if(!txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() && precioValido) // Si el precio tiene algo y la cedula esta vacia
-                    {
-                        admTicket.buscarTicket(tblBusquedaTickets, cedula, precio, TipoFiltroSoloBusqueda.Precio);
-                    }
-                    else if(!txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida && precioValido) // Si los dos tienen algo
-                    {
-                        admTicket.buscarTicket(tblBusquedaTickets, cedula, precio, TipoFiltroSoloBusqueda.Cedula_y_Precio);
-                    }
-                } 
-            }
-            
-            default -> busquedaParaModificarEliminar(); // Para Modificacion y Eliminacion
+            case Basics -> busquedaFiltrosBasicos();
+            case Client -> busquedaFiltrosCliente();
+            case Movie -> busquedaFiltroPelicula();
+            default -> {}
         }
-        
+
         updateTicketsCount();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void busquedaParaModificarEliminar()
+    /** Manages tickets searching using the basic filters criterias
+     * 
+     * @since 1.6
+     * @see control.AdmTicket
+     */
+    private void busquedaFiltrosBasicos ()
     {
-        int edad = 0;
+        String cedula = "";
+        double precio = 0.0;
+        boolean cedulaValida = false, precioValido = false;
+        // Validaciones
+        if ( !txtPrecioTicket.getText().isBlank() )
+            precio = Validacion.leerReal( txtPrecioTicket.getText(), AdmSettings.getLanguageBundle().getString( "lk_decimal_error_msj" ), AdmSettings.getLanguageBundle().getString( "lk_price_error_title" ) );
+
+        if ( Validacion.isDatoValido() )
+            precioValido = true;
+
+        if ( !txtCedula.getText().isBlank() )
+            cedula = Validacion.validarStrings(txtCedula.getText(), Validacion.TipoEntradaString.Cedula_Busqueda );
+
+        if ( Validacion.isDatoValido() )
+            cedulaValida = true;
+        // Posibles escenarios
+        if ( txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() ) // Si los dos estan vacios
+        {
+            admTicket.buscarTicket( tblBusquedaTickets );
+        }
+        else
+        {
+            if ( txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida ) // Si el precio esta vacio y la cedula tiene algo
+            {
+                FilterValue.setCedulaSearching( cedula );
+                admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Cedula );
+            }
+            else if ( !txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() && precioValido ) // Si el precio tiene algo y la cedula esta vacia
+            {
+                FilterValue.setTicketPriceSearching( precio );
+                admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Precio );
+            }
+            else if ( !txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida && precioValido ) // Si los dos tienen algo
+            {
+                FilterValue.setCedulaSearching( cedula );
+                FilterValue.setTicketPriceSearching( precio );
+                admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Cedula_y_Precio );
+            }
+        }
         
-        if(!ftxEdad.getText().isBlank())
-            edad = Validacion.leerEntero(ftxEdad.getText(), "La edad debe ser un numero natural (entero positivo). Ingresela nuevamente", "Edad no valida");
-                
-        if(checkEdadCliente.isSelected() && checkGeneroCliente.isSelected())
+        if ( !txtPrecioTicket.getText().isBlank() && !precioValido )
         {
-            if(Validacion.isDatoValido())
-            {
-                admTicket.buscarTicket(tblBusquedaTickets, edad, cmbFiltroEdad.getSelectedItem().toString(), cmbFiltroGenero.getSelectedItem().toString(), TipoFiltroEdadGenero.Edad_y_Genero);
-            }
+            txtPrecioTicket.setText( "" );
+            txtPrecioTicket.requestFocus();
         }
-        else if(!checkEdadCliente.isSelected() && checkGeneroCliente.isSelected())
+        else if ( !txtCedula.getText().isBlank() && !cedulaValida )
         {
-            admTicket.buscarTicket(tblBusquedaTickets, edad, cmbFiltroEdad.getSelectedItem().toString(), cmbFiltroGenero.getSelectedItem().toString(), TipoFiltroEdadGenero.Genero);
-        }
-        else if(checkEdadCliente.isSelected() && !checkGeneroCliente.isSelected())
-        {
-            if(Validacion.isDatoValido())
-            {
-                admTicket.buscarTicket(tblBusquedaTickets, edad, cmbFiltroEdad.getSelectedItem().toString(), cmbFiltroGenero.getSelectedItem().toString(), TipoFiltroEdadGenero.Edad);
-            }
-        }
-        else if(!checkEdadCliente.isSelected() && !checkGeneroCliente.isSelected())
-        {
-            admTicket.buscarTicket(tblBusquedaTickets);
-            updateTicketsCount();
+            txtCedula.setText( "" );
+            txtCedula.requestFocus();
         }
     }
-    
-    private void btnModificarEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEliminarActionPerformed
-        switch(tipoBusqueda)
+
+    /** Manages tickets searching using the client filters criterias
+     * 
+     * @since 1.6
+     * @see control.AdmTicket
+     */
+    private void busquedaFiltrosCliente ()
+    {
+        if ( cmbFiltroEdad.getSelectedIndex() != 0 && cmbFiltroGeneroCliente.getSelectedIndex() != 0 )
         {
-            case Modificacion ->
-            {
-                if(tblBusquedaTickets.getSelectedRow() >= 0)
-                {
-                    FrmGenerarTicket dialogActualizarTicket = new FrmGenerarTicket((javax.swing.JFrame)this.getOwner(), true, TipoAccion.Modificacion, (String)tblBusquedaTickets.getValueAt(tblBusquedaTickets.getSelectedRow(), 1));
-                    dialogActualizarTicket.setVisible(true);
-                    
-                    if(admTicket.isTicketGeneradoExitosamente()) // Evaluamos si el Ticket se genera correctamente para cerrar esta ventana
-                    {   
-                        admTicket.setTicketGeneradoExitosamente(false); // Volvemos a este atributo a su estado normal para la proxima generacion de Ticket, y mandamos a llenar el registro del Ticket modificado para que refleje su actualizaciï¿½n
-                        admTicket.llenarRegistroTablaBusqueda(tblBusquedaTickets, admTicket.getTickets().get((String)tblBusquedaTickets.getValueAt(tblBusquedaTickets.getSelectedRow(), 1)), (int)tblBusquedaTickets.getValueAt(tblBusquedaTickets.getSelectedRow(), 0), tblBusquedaTickets.getSelectedRow());
-                    }
-                }
-                else
-                    JOptionPane.showMessageDialog(this, "Ningun registro seleccionado. Debe seleccionar un registro para modificarlo", "Sin seleccion", JOptionPane.WARNING_MESSAGE);
-            }
-            
-            case Eliminacion ->
-            {
-                if(tblBusquedaTickets.getSelectedRow() >= 0)
-                {            
-                    if(JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar este Ticket, esta accion no se podra deshacer.", "Confirmar eliminacion", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) // Confirmo Eliminacion
-                    {   
-                        admTicket.eliminarTicket((String)tblBusquedaTickets.getValueAt(tblBusquedaTickets.getSelectedRow(), 1)); // Envio el codigo del Ticket para eliminarlo del HashMap
-                        admTicket.buscarTicket(tblBusquedaTickets); // Muestro todos los elementos del HashMap haciendo una busqueda sin filtros para evidenciar que el elemento ya ha sido eliminado.
-                        updateTicketsCount();
-                    }
-                }
-                else
-                    JOptionPane.showMessageDialog(this, "Ningun registro seleccionado. Debe seleccionar un registro para eliminarlo", "Sin seleccion", JOptionPane.WARNING_MESSAGE);
-            }
-            default -> { } // Yes, it has nothing
+            FilterValue.setClientAgeCriteria( Commons.ClientCriterias.valueOfLocalizedString( cmbFiltroEdad.getSelectedItem().toString() ) );
+            FilterValue.setClientAgeSearching( ( int ) spinnerEdad.getValue() );
+            FilterValue.setClientGenderSearching( cmbFiltroGeneroCliente.getSelectedItem().toString() );
+            admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Edad_y_Genero );
         }
-                
-    }//GEN-LAST:event_btnModificarEliminarActionPerformed
+        else if ( cmbFiltroEdad.getSelectedIndex() != 0 && cmbFiltroGeneroCliente.getSelectedIndex() == 0 )
+        {
+            FilterValue.setClientAgeCriteria( Commons.ClientCriterias.valueOfLocalizedString( cmbFiltroEdad.getSelectedItem().toString() ) );
+            FilterValue.setClientAgeSearching( ( int ) spinnerEdad.getValue() );
+            admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Edad );
+        }
+        else if ( cmbFiltroEdad.getSelectedIndex() == 0 && cmbFiltroGeneroCliente.getSelectedIndex() != 0 )
+        {
+            FilterValue.setClientGenderSearching( cmbFiltroGeneroCliente.getSelectedItem().toString() );
+            admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.GeneroCliente );
+        }
+        else if ( cmbFiltroEdad.getSelectedIndex() == 0 && cmbFiltroGeneroCliente.getSelectedIndex() == 0 )
+        {
+            admTicket.buscarTicket( tblBusquedaTickets );
+        }
+    }
 
-    private void checkGeneroClienteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkGeneroClienteStateChanged
-        panelGeneroCliente.setEnabled(checkEdadCliente.isEnabled());
-        lblGenero.setEnabled(checkEdadCliente.isEnabled());
-        cmbFiltroGenero.setEnabled(checkEdadCliente.isEnabled());
-    }//GEN-LAST:event_checkGeneroClienteStateChanged
+    /** Manages tickets searching using the movie filters criterias
+     * 
+     * @since 1.6
+     * @see control.AdmTicket
+     */
+    private void busquedaFiltroPelicula ()
+    {
+        switch ( currentFiltersMovieSubGroupSelected )
+        {
+            case MovieName ->
+            {
+                if ( cmbFiltroPelicula.getSelectedIndex() != 0 ) // Validamos que no este seleccionado el primer indice que corresponde a "Todas", de ser asï¿½deberï¿½a listar simplemente todos los tickets sin buscar
+                {
+                    FilterValue.setMovieNameSearching( cmbFiltroPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.NombrePelicula );
+                }
+                else
+                {
+                    admTicket.buscarTicket( tblBusquedaTickets );
+                }
+            }
 
-    private void checkEdadClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkEdadClienteItemStateChanged
-        panelEdadCliente.setEnabled(checkEdadCliente.isEnabled());
-        lblEdad.setEnabled(checkEdadCliente.isEnabled());
-        cmbFiltroEdad.setEnabled(checkEdadCliente.isEnabled());
-        ftxEdad.setEnabled(checkEdadCliente.isEnabled());
-        lblAnios.setEnabled(checkEdadCliente.isEnabled());
-    }//GEN-LAST:event_checkEdadClienteItemStateChanged
+            case MovieOthers ->
+            {
+                if ( cmbFiltroGeneroPelicula.getSelectedIndex() != 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() != 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() != 0 )
+                {
+                    FilterValue.setMovieGenreSearching( AdmPelicula.MovieGenres.valueOfLocalizedString( cmbFiltroGeneroPelicula.getSelectedItem().toString() ) );
+                    FilterValue.setMovieLanguageSearching( cmbFiltroIdiomaPelicula.getSelectedItem().toString() );
+                    FilterValue.setMovieSubSearching( cmbFiltroSubtitulosPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Gen_Idiom_Sub_Pelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() == 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() != 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() != 0 )
+                {
+                    FilterValue.setMovieLanguageSearching( cmbFiltroIdiomaPelicula.getSelectedItem().toString() );
+                    FilterValue.setMovieSubSearching( cmbFiltroSubtitulosPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Idiom_y_Sub_Pelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() != 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() == 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() != 0 )
+                {
+                    FilterValue.setMovieGenreSearching( AdmPelicula.MovieGenres.valueOfLocalizedString( cmbFiltroGeneroPelicula.getSelectedItem().toString() ) );
+                    FilterValue.setMovieSubSearching( cmbFiltroSubtitulosPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Gen_y_Sub_Pelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() != 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() != 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() == 0 )
+                {
+                    FilterValue.setMovieGenreSearching( AdmPelicula.MovieGenres.valueOfLocalizedString( cmbFiltroGeneroPelicula.getSelectedItem().toString() ) );
+                    FilterValue.setMovieLanguageSearching( cmbFiltroIdiomaPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Gen_e_Idiom_Pelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() != 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() == 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() == 0 )
+                {
+                    FilterValue.setMovieGenreSearching( AdmPelicula.MovieGenres.valueOfLocalizedString( cmbFiltroGeneroPelicula.getSelectedItem().toString() ) );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.GeneroPelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() == 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() != 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() == 0 )
+                {
+                    FilterValue.setMovieLanguageSearching( cmbFiltroIdiomaPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.IdiomaPelicula );
+                }
+                else if ( cmbFiltroGeneroPelicula.getSelectedIndex() == 0
+                        && cmbFiltroIdiomaPelicula.getSelectedIndex() == 0
+                        && cmbFiltroSubtitulosPelicula.getSelectedIndex() != 0 )
+                {
+                    FilterValue.setMovieSubSearching( cmbFiltroSubtitulosPelicula.getSelectedItem().toString() );
+                    admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.SubtitulosPelicula );
+                }
+                else
+                {
+                    admTicket.buscarTicket( tblBusquedaTickets );
+                }
+            }
 
-    private void txtPrecioTicketKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtPrecioTicketKeyReleased
-    {//GEN-HEADEREND:event_txtPrecioTicketKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            default -> {}
+        }
+    }
+
+    /** Performs a Ticket editing if there is a ticket selected, opens the 
+     *  ticket information in the {@code FrmGenerarTicket} window in edit mode
+     *  to be able to edit it
+     * 
+     * @since 1.6
+     * @see control.AdmTicket
+     */
+    private void editTicket ()
+    {
+        if ( tblBusquedaTickets.getSelectedRow() >= 0 )
+        {
+            FrmGenerarTicket dialogActualizarTicket = new FrmGenerarTicket( ( javax.swing.JFrame ) this.getOwner(), true, Commons.WindowMode.Edicion, ( String ) tblBusquedaTickets.getValueAt( tblBusquedaTickets.getSelectedRow(), 1 ) );
+            dialogActualizarTicket.setVisible( true );
+
+            if ( admTicket.isTicketGeneradoExitosamente() ) // Evaluamos si el Ticket se genera correctamente para cerrar esta ventana
+            {
+                admTicket.setTicketGeneradoExitosamente( false ); // Volvemos a este atributo a su estado normal para la proxima generacion de Ticket, y mandamos a llenar el registro del Ticket modificado para que refleje su actualizaciï¿½n
+                admTicket.llenarRegistroTablaBusqueda( tblBusquedaTickets, admTicket.getTickets().get( ( String ) tblBusquedaTickets.getValueAt( tblBusquedaTickets.getSelectedRow(), 1 ) ), tblBusquedaTickets.getSelectedRow(), AdmTicket.TipoLlenarRegistro.EditRow );
+            }
+        }
+        else
+            JOptionPane.showMessageDialog( this, AdmSettings.getLanguageBundle().getString( "lk_no_reg_edit_msj" ), AdmSettings.getLanguageBundle().getString( "lk_no_selection_title" ), JOptionPane.WARNING_MESSAGE );
+    }
+
+    /** Performs a Ticket deletion if there is a ticket selected
+     * 
+     * @since 1.6
+     * @see control.AdmTicket
+     */
+    private void deleteTicket ()
+    {
+        if ( tblBusquedaTickets.getSelectedRow() >= 0 )
+        {
+            if ( JOptionPane.showConfirmDialog( this, AdmSettings.getLanguageBundle().getString( "lk_delete_ticket_confirm_msj" ), AdmSettings.getLanguageBundle().getString( "lk_delete_confirm_title" ), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE ) == JOptionPane.OK_OPTION ) // Confirmo Eliminacion
+            {
+                admTicket.eliminarTicket( ( String ) tblBusquedaTickets.getValueAt( tblBusquedaTickets.getSelectedRow(), 1 ) ); // Envio el codigo del Ticket para eliminarlo del HashMap
+                btnBuscar.doClick(); // Se llama al boton Buscar, de esta manera si hay filtros activos se volvera a hacer la misma busqueda y si no los hay mostraria todos los tickets, de una forma y otra, ya no apareceria el que se acaba de eliminar, evidenciandose asi que, en efecto, el ticket fue eliminado.
+                updateTicketsCount();
+            }
+        }
+        else
+            JOptionPane.showMessageDialog( this, AdmSettings.getLanguageBundle().getString( "lk_no_reg_delete_msj" ), AdmSettings.getLanguageBundle().getString( "lk_no_selection_title" ), JOptionPane.WARNING_MESSAGE );
+    }
+
+    private void cmbFiltroEdadItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_cmbFiltroEdadItemStateChanged
+    {//GEN-HEADEREND:event_cmbFiltroEdadItemStateChanged
+        if ( cmbFiltroEdad.getSelectedIndex() != 0 )
+        {
+            if ( !spinnerEdad.isEnabled() )
+                spinnerEdad.setEnabled( true );
+
+            if ( !lblAnios.isEnabled() )
+                lblAnios.setEnabled( true );
+        }
+        else
+        {
+            spinnerEdad.setEnabled( false );
+            lblAnios.setEnabled( false );
+        }
+    }//GEN-LAST:event_cmbFiltroEdadItemStateChanged
+
+    private void rbBasicosItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_rbBasicosItemStateChanged
+    {//GEN-HEADEREND:event_rbBasicosItemStateChanged
+        if ( rbBasicos.isSelected() & !panelBasicos.isEnabled() )
+        {
+            enableDisableBasicFilters( rbBasicos.isSelected() );
+
+            if ( panelCliente.isEnabled() )
+                enableDisableClientFilters( rbCliente.isSelected() );
+
+            if ( panelPelicula.isEnabled() )
+                enableDisableMovieFilters( rbPelicula.isSelected() );
+
+            if ( !currentFiltersMacroGroupSelected.equals( FiltersGroups.Basics ) )
+                currentFiltersMacroGroupSelected = FiltersGroups.Basics;
+        }
+    }//GEN-LAST:event_rbBasicosItemStateChanged
+
+    private void rbClienteItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_rbClienteItemStateChanged
+    {//GEN-HEADEREND:event_rbClienteItemStateChanged
+        if ( rbCliente.isSelected() & !panelCliente.isEnabled() )
+        {
+            enableDisableClientFilters( rbCliente.isSelected() );
+
+            if ( panelBasicos.isEnabled() )
+                enableDisableBasicFilters( rbBasicos.isSelected() );
+
+            if ( panelPelicula.isEnabled() )
+                enableDisableMovieFilters( rbPelicula.isSelected() );
+
+            if ( !currentFiltersMacroGroupSelected.equals( FiltersGroups.Client ) )
+                currentFiltersMacroGroupSelected = FiltersGroups.Client;
+        }
+    }//GEN-LAST:event_rbClienteItemStateChanged
+
+    private void rbPeliculaItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_rbPeliculaItemStateChanged
+    {//GEN-HEADEREND:event_rbPeliculaItemStateChanged
+        if ( rbPelicula.isSelected() & !panelPelicula.isEnabled() )
+        {
+            enableDisableMovieFilters( rbPelicula.isSelected() );
+
+            if ( panelCliente.isEnabled() )
+                enableDisableClientFilters( rbCliente.isSelected() );
+
+            if ( panelBasicos.isEnabled() )
+                enableDisableBasicFilters( rbBasicos.isSelected() );
+
+            if ( !currentFiltersMacroGroupSelected.equals( FiltersGroups.Movie ) )
+                currentFiltersMacroGroupSelected = FiltersGroups.Movie;
+        }
+    }//GEN-LAST:event_rbPeliculaItemStateChanged
+
+    private void rbNombrePeliculaItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_rbNombrePeliculaItemStateChanged
+    {//GEN-HEADEREND:event_rbNombrePeliculaItemStateChanged
+        if ( rbNombrePelicula.isSelected() & !cmbFiltroPelicula.isEnabled() )
+        {
+            enableDisableMovieCriterias( rbNombrePelicula.isSelected() );
+            currentFiltersMovieSubGroupSelected = FiltersGroups.MovieName;
+        }
+    }//GEN-LAST:event_rbNombrePeliculaItemStateChanged
+
+    private void rbOtrosPeliculaItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_rbOtrosPeliculaItemStateChanged
+    {//GEN-HEADEREND:event_rbOtrosPeliculaItemStateChanged
+        if ( rbOtrosPelicula.isSelected() & !cmbFiltroGeneroPelicula.isEnabled() )
+        {
+            enableDisableMovieCriterias( rbNombrePelicula.isSelected() );
+            currentFiltersMovieSubGroupSelected = FiltersGroups.MovieOthers;
+        }
+    }//GEN-LAST:event_rbOtrosPeliculaItemStateChanged
+
+    private void spinnerEdadKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_spinnerEdadKeyReleased
+    {//GEN-HEADEREND:event_spinnerEdadKeyReleased
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER )
             btnBuscar.doClick();
-    }//GEN-LAST:event_txtPrecioTicketKeyReleased
+    }//GEN-LAST:event_spinnerEdadKeyReleased
+
+    private void popUpMnuEditActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_popUpMnuEditActionPerformed
+    {//GEN-HEADEREND:event_popUpMnuEditActionPerformed
+        editTicket();
+    }//GEN-LAST:event_popUpMnuEditActionPerformed
+
+    private void popUpMnuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_popUpMnuDeleteActionPerformed
+    {//GEN-HEADEREND:event_popUpMnuDeleteActionPerformed
+        deleteTicket();
+    }//GEN-LAST:event_popUpMnuDeleteActionPerformed
+
+    private void tblBusquedaTicketsKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_tblBusquedaTicketsKeyReleased
+    {//GEN-HEADEREND:event_tblBusquedaTicketsKeyReleased
+        switch ( evt.getKeyCode() )
+        {
+            case KeyEvent.VK_SPACE -> editTicket();
+            case KeyEvent.VK_DELETE -> deleteTicket();
+            default -> {}
+        }
+    }//GEN-LAST:event_tblBusquedaTicketsKeyReleased
+
+    private void tblBusquedaTicketsMousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblBusquedaTicketsMousePressed
+    {//GEN-HEADEREND:event_tblBusquedaTicketsMousePressed
+        if ( evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2 )
+            editTicket();
+    }//GEN-LAST:event_tblBusquedaTicketsMousePressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_formKeyReleased
+    {//GEN-HEADEREND:event_formKeyReleased
+        if ( evt.getKeyCode() == KeyEvent.VK_ESCAPE )
+            this.dispose();
+    }//GEN-LAST:event_formKeyReleased
 
     private void txtCedulaKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtCedulaKeyReleased
     {//GEN-HEADEREND:event_txtCedulaKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER )
             btnBuscar.doClick();
     }//GEN-LAST:event_txtCedulaKeyReleased
 
-    private void ftxEdadKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_ftxEdadKeyReleased
-    {//GEN-HEADEREND:event_ftxEdadKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+    private void txtPrecioTicketKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txtPrecioTicketKeyReleased
+    {//GEN-HEADEREND:event_txtPrecioTicketKeyReleased
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER )
             btnBuscar.doClick();
-    }//GEN-LAST:event_ftxEdadKeyReleased
+    }//GEN-LAST:event_txtPrecioTicketKeyReleased
 
-    private void updateTicketsCount()
+    /**
+     * Updates the Tickets count indicator label counting how many rows are in
+     * the table
+     */
+    private void updateTicketsCount ()
     {
-        lblCantidadTickets.setText(tblBusquedaTickets.getRowCount() + "");
-        centerTableContent(tblBusquedaTickets);
+        lblCantidadTickets.setText( tblBusquedaTickets.getRowCount() + "" );
     }
     
-    private void centerTableContent(JTable tablaBusqueda)
-    {
-        common.centerTableColumns(tablaBusqueda);
-        DefaultTableColumnModel columnModelTB = (DefaultTableColumnModel) tablaBusqueda.getColumnModel();
+    /** Enables or disables the basic filters group
+     * @param basicState A {@code boolean} parameter used to enable or disable
+     *                   the basic filters components, if true, components 
+     *                    will be enabled, they will be disabled otherwise
+     * @since 1.6
+     */
+    private void enableDisableBasicFilters ( boolean basicState )
+    {   // Macro Enablement Manager
+        panelBasicos.setEnabled( basicState );
+        lblPrecioTicket.setEnabled( basicState );
+        txtPrecioTicket.setEnabled( basicState );
+        lblCedulaCliente.setEnabled( basicState );
+        txtCedula.setEnabled( basicState );
+    }
+    
+    /** Enables or disables the client filters group
+     * @param clientState A {@code boolean} parameter used to enable or disable
+     *                    the client filters components, if true, components 
+     *                    shall be enabled, disabled otherwise
+     * @since 1.6
+     */
+    private void enableDisableClientFilters ( boolean clientState )
+    {   // Macro Enablement Manager
+        panelCliente.setEnabled( clientState );
+        lblEdad.setEnabled( clientState );
+        cmbFiltroEdad.setEnabled( clientState );
+        lblGeneroCliente.setEnabled( clientState );
+        cmbFiltroGeneroCliente.setEnabled( clientState );
+
+        if ( !spinnerEdad.isEnabled() & clientState & cmbFiltroEdad.getSelectedIndex() != 0 )
+        {
+            spinnerEdad.setEnabled( clientState );
+            lblAnios.setEnabled( clientState );
+        }
+        else if ( !clientState )
+        {
+            spinnerEdad.setEnabled( clientState );
+            lblAnios.setEnabled( clientState );
+        }
+    }
+
+    /** Enables or disables the movie filters group as it corresponds with the
+     * given order
+     * @param movieState A {@code boolean} order parameter used to enable or 
+     *                   disable the movie filtering components
+     * @since 1.6
+     */
+    private void enableDisableMovieFilters ( boolean movieState )
+    {   // Macro Enablement Manager
+        // Only if movie filters panel is in a different state than the indicated then movie filters control components are enabled or disabled, because it doesn't make sense to call to enable them if they are already enabled, and movie filters panel is taken as reference because all movie filters control components have the same state
+        if ( panelPelicula.isEnabled() != movieState )
+        {   
+            panelPelicula.setEnabled( movieState );
+            lblSearchFor.setEnabled( movieState );
+            rbNombrePelicula.setEnabled( movieState );
+            rbOtrosPelicula.setEnabled( movieState );
+        }
         
-        columnModelTB.getColumn(0).setPreferredWidth(20);
-        columnModelTB.getColumn(1).setPreferredWidth(215);
-        columnModelTB.getColumn(2).setPreferredWidth(40);
-        columnModelTB.getColumn(3).setPreferredWidth(150);
-        columnModelTB.getColumn(4).setPreferredWidth(85);
-        columnModelTB.getColumn(5).setPreferredWidth(50);
-        columnModelTB.getColumn(6).setPreferredWidth(75);
-        columnModelTB.getColumn(7).setPreferredWidth(160);
-        columnModelTB.getColumn(8).setPreferredWidth(75);
-        columnModelTB.getColumn(9).setPreferredWidth(50);
-        columnModelTB.getColumn(10).setPreferredWidth(60);
-        columnModelTB.getColumn(11).setPreferredWidth(50);
-        columnModelTB.getColumn(12).setPreferredWidth(60);
-        columnModelTB.getColumn(13).setPreferredWidth(85);
-        columnModelTB.getColumn(14).setPreferredWidth(50);
-        columnModelTB.getColumn(15).setPreferredWidth(60);
-        columnModelTB.getColumn(16).setPreferredWidth(50);
-        columnModelTB.getColumn(17).setPreferredWidth(75);
-        columnModelTB.getColumn(18).setPreferredWidth(75);
+        if ( movieState ) // Only if movieState is true, it means that the order is to enable movie filters
+        {   // and it calls to the criterias group enabler to enable the filters group that correspond wheter movie name or others taking the rbNombrePelicula component as reference, because if it is selected it means that movie name filters have to be enabled and the other filters have to be disabled, but if it is not selected, then opposite behavior is produced             
+            enableDisableMovieCriterias( rbNombrePelicula.isSelected() );
+        }
+        else // so if movieState is false then all movie filters are going to be disabled then this takes one component of each movie filters group as reference to disable only those which are currently enabled, those which are already disabled are not affected and just still that way
+        {
+            if ( cmbFiltroPelicula.isEnabled() != movieState )
+            {
+                lblNombrePelicula.setEnabled( movieState );
+                cmbFiltroPelicula.setEnabled( movieState );
+            }
+
+            if ( cmbFiltroGeneroPelicula.isEnabled() != movieState )
+            {
+                lblGeneroPelicula.setEnabled( movieState );
+                cmbFiltroGeneroPelicula.setEnabled( movieState );
+                lblIdiomaPelicula.setEnabled( movieState );
+                cmbFiltroIdiomaPelicula.setEnabled( movieState );
+                lblSubtitulosPelicula.setEnabled( movieState );
+                cmbFiltroSubtitulosPelicula.setEnabled( movieState );
+            }
+        }
     }
-    
+
+    /**
+     * Enables or disables movie filters groups following an {@code boolean} 
+     * order, the {@code rbNombrePelicula} selected state is taken as reference, 
+     * so movie name filtering group components shall have this state if they 
+     * do not already have it, and others filtering group shall have the 
+     * opposite state if their state is equal to the referenced component state,
+     * this logic allows the right behavior that is intended to achieve, for
+     * example: 
+     * <pre>
+     *      - If the {@code rbNombrePelicula} selected state is true, it means 
+     *        it is currently selected and so {@code rbOtrosPelicula} is not 
+     *        selected, so it means that movie name fitering group components 
+     *        shall be enabled if they are not already and movie others 
+     *        filtering group components shall be disabled if they are currently
+     *        enabled
+     * </pre>
+     * 
+     * @param nombrePeliculaSelectedState The {@code rbNombrePelicula} component 
+     *                                    selected state taken as reference 
+     *                                    order to enable or disable the movie 
+     *                                    filters groups
+     *
+     * @since 1.6
+     */
+    private void enableDisableMovieCriterias ( boolean nombrePeliculaSelectedState )
+    {   // Movie Sub Criterias Enablement Manager
+        if ( cmbFiltroPelicula.isEnabled() != nombrePeliculaSelectedState )
+        {
+            lblNombrePelicula.setEnabled( nombrePeliculaSelectedState );
+            cmbFiltroPelicula.setEnabled( nombrePeliculaSelectedState );
+        }
+
+        if ( cmbFiltroGeneroPelicula.isEnabled() == nombrePeliculaSelectedState )
+        {
+            lblGeneroPelicula.setEnabled( !nombrePeliculaSelectedState );
+            cmbFiltroGeneroPelicula.setEnabled( !nombrePeliculaSelectedState );
+            lblIdiomaPelicula.setEnabled( !nombrePeliculaSelectedState );
+            cmbFiltroIdiomaPelicula.setEnabled( !nombrePeliculaSelectedState );
+            lblSubtitulosPelicula.setEnabled( !nombrePeliculaSelectedState );
+            cmbFiltroSubtitulosPelicula.setEnabled( !nombrePeliculaSelectedState );
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup SubtitulosGroup;
+    private javax.swing.ButtonGroup bgMacroCriteriaGroup;
+    private javax.swing.ButtonGroup bgPeliculaGroup;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnModificarEliminar;
-    private javax.swing.JCheckBox checkEdadCliente;
-    private javax.swing.JCheckBox checkGeneroCliente;
-    private javax.swing.JCheckBox checkPelicula;
     private javax.swing.JComboBox<String> cmbFiltroEdad;
-    private javax.swing.JComboBox<String> cmbFiltroGenero;
+    private javax.swing.JComboBox<String> cmbFiltroGeneroCliente;
     private javax.swing.JComboBox<String> cmbFiltroGeneroPelicula;
     private javax.swing.JComboBox<String> cmbFiltroIdiomaPelicula;
     private javax.swing.JComboBox<String> cmbFiltroPelicula;
-    private javax.swing.JFormattedTextField ftxEdad;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JComboBox<String> cmbFiltroSubtitulosPelicula;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAnios;
     private javax.swing.JLabel lblCantidadTickets;
-    private javax.swing.JLabel lblCodigoTicket;
+    private javax.swing.JLabel lblCedulaCliente;
     private javax.swing.JLabel lblEdad;
-    private javax.swing.JLabel lblGenero;
-    private javax.swing.JLabel lblIdCliente;
-    private javax.swing.JPanel panelEdadCliente;
-    private javax.swing.JPanel panelGeneroCliente;
+    private javax.swing.JLabel lblGeneroCliente;
+    private javax.swing.JLabel lblGeneroPelicula;
+    private javax.swing.JLabel lblIdiomaPelicula;
+    private javax.swing.JLabel lblNombrePelicula;
+    private javax.swing.JLabel lblPrecioTicket;
+    private javax.swing.JLabel lblSearchFor;
+    private javax.swing.JLabel lblSubtitulosPelicula;
+    private javax.swing.JPanel panelBasicos;
+    private javax.swing.JPanel panelCliente;
     private javax.swing.JPanel panelPelicula;
-    private javax.swing.JPanel panelSubtitulos;
-    private javax.swing.JRadioButton rdoSubCon;
-    private javax.swing.JRadioButton rdoSubSin;
-    private javax.swing.JRadioButton rdoSubTodas;
+    private javax.swing.JMenuItem popUpMnuDelete;
+    private javax.swing.JMenuItem popUpMnuEdit;
+    private javax.swing.JPopupMenu popUpTicketsTable;
+    private javax.swing.JRadioButton rbBasicos;
+    private javax.swing.JRadioButton rbCliente;
+    private javax.swing.JRadioButton rbNombrePelicula;
+    private javax.swing.JRadioButton rbOtrosPelicula;
+    private javax.swing.JRadioButton rbPelicula;
+    private javax.swing.JSpinner spinnerEdad;
     private javax.swing.JTable tblBusquedaTickets;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtPrecioTicket;

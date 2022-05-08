@@ -3,7 +3,9 @@
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Atribucion - Recursos de Terceros"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_attribution_title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+    </Property>
     <Property name="iconImage" type="java.awt.Image" editor="org.netbeans.modules.form.ComponentChooserEditor">
       <ComponentRef name="null"/>
     </Property>
@@ -36,7 +38,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane7" min="-2" pref="870" max="-2" attributes="0"/>
+          <Component id="jScrollPane7" alignment="0" pref="870" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -90,7 +92,7 @@
                       <Component id="jLabel18" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="55" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -102,7 +104,9 @@
                   <Font name="Segoe UI" size="20" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Recursos Graficos"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_graphical_resources" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
@@ -111,7 +115,9 @@
                   <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Ademas se usaron algunas otras imagenes tomadas de Google y sitios de Wallpapers gratuitos."/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_att_usage_comment" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">
@@ -120,7 +126,9 @@
                   <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="2021 - 2022"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="2021 - 2022" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="3"/>
               </Properties>
             </Component>
@@ -129,6 +137,7 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder title="Vectores e imagenes descargadas desde Freepik.com">
+                      <ResourceString PropertyName="titleX" bundle="internationalization/Internationalization_Bundle.properties" key="lk_vectors_downloaded_from" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Segoe UI" size="16" style="1"/>
                     </TitledBorder>
                   </Border>
@@ -213,7 +222,9 @@
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
                         <Property name="rows" type="int" value="1"/>
-                        <Property name="text" type="java.lang.String" value="Designed by macrovector / Freepik"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_designed_by_macrovector" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -256,7 +267,9 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Designed by vectorpocket / Freepik"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_designed_by_vectorpocket" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -285,7 +298,9 @@
                         </Property>
                         <Property name="rows" type="int" value="1"/>
                         <Property name="tabSize" type="int" value="1"/>
-                        <Property name="text" type="java.lang.String" value="Designed by Freepik / Freepik"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_designed_by_freepik" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -312,7 +327,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Se puede encontrar estos recursos en:"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_find_resources_on" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelFreepikLink">
@@ -321,7 +338,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Freepik Link"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="FREEPIK LINK" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -339,7 +358,9 @@
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
                         <Property name="rows" type="int" value="1"/>
-                        <Property name="text" type="java.lang.String" value="Designed by 3ab2ou / Freepik"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_designed_by_3ab2ou" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -350,7 +371,8 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Temas de la Interfaz Grafica de Usuario - Color y Dise&#xf1;o - GUI Look and Feel">
+                    <TitledBorder title="Temas de la Interfaz Gr&#xe1;fica de Usuario - Color y Dise&#xf1;o">
+                      <ResourceString PropertyName="titleX" bundle="internationalization/Internationalization_Bundle.properties" key="lk_laf_themes_title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Segoe UI" size="16" style="1"/>
                     </TitledBorder>
                   </Border>
@@ -407,7 +429,9 @@
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
                         <Property name="rows" type="int" value="1"/>
-                        <Property name="text" type="java.lang.String" value="Desarrollado por FormDev Software:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_designed_by_formdev" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -417,7 +441,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Flat Look And Feel - FlatLaf version 1.6.1 - FlatLaf IntelliJ Themes and Extras version 1.6.1 - Salamander 1.1.2.4"/>
+                    <Property name="text" type="java.lang.String" value="Flat Look And Feel: FlatLaf 2.1 - FlatLaf IntelliJ Themes 2.1 - FlatLaf Extras 2.1 - SVG Salamander 1.1.3"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel16">
@@ -426,7 +450,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Se puede encontrar estos recursos en:"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_find_resources_on" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelFormDevLink">
@@ -435,7 +461,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="FormDev Link"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="FORMDEV LINK" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -501,7 +529,9 @@
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
                         <Property name="rows" type="int" value="1"/>
-                        <Property name="text" type="java.lang.String" value="Desarrollado y mantenido por Google:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_developed_by_google" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -520,7 +550,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Se puede encontrar estos recursos en:"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_find_resources_on" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelMaterialIconsLink">
@@ -529,7 +561,9 @@
                       <Font name="Segoe UI" size="16" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Material Icons Link"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="MATERIAL ICONS LINK" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -540,7 +574,9 @@
                   <Font name="Segoe UI" size="16" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Universidad de Guayaquil"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="internationalization/Internationalization_Bundle.properties" key="lk_universidad_guayaquil" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
                 <Property name="verticalAlignment" type="int" value="3"/>
               </Properties>
             </Component>
