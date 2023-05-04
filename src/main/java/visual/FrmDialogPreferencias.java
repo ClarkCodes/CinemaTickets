@@ -21,7 +21,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.KeyStroke;
-import model.Commons;
+import control.Commons;
 
 /** Settings Window
  *
@@ -706,9 +706,9 @@ public class FrmDialogPreferencias extends javax.swing.JDialog
             datosTickets.dialogDirectorySetter();
         }
         
-        if ( !datosTickets.getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale() ) ) //NOI18N
+        if ( !datosTickets.getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale().toLanguageTag().replace( "-", "_") ) ) //NOI18N
         {
-            datosTickets.getUserProperties().setProperty( "appLocale", AdmSettings.getAppLanguage().getLocale() ); //NOI18N
+            datosTickets.getUserProperties().setProperty( "appLocale", AdmSettings.getAppLanguage().getLocale().toLanguageTag().replace( "-", "_") ); //NOI18N
             admSettings.applyLanguageInApp();
         }
 
@@ -738,7 +738,7 @@ public class FrmDialogPreferencias extends javax.swing.JDialog
         if ( !datosTickets.getUserProperties().getProperty( "appDataMode" ).equalsIgnoreCase( admSettings.getAppDataMode().toString() ) )
             admSettings.setAppDataMode( datosTickets.getUserProperties().getProperty( "appDataMode" ) );
 
-        if ( !datosTickets.getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale() ) ) //NOI18N
+        if ( !datosTickets.getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale().toLanguageTag().replace( "-", "_") ) ) //NOI18N
             AdmSettings.setAppLanguage( datosTickets.getUserProperties().getProperty( "appLocale" ) );
         
         if ( !datosTickets.getUserProperties().getProperty( "fileTypeToSave" ).equalsIgnoreCase( admSettings.getFileTypeToSave().toString().toLowerCase() ) )

@@ -60,7 +60,7 @@ public final class Validacion
      */
     public static double leerReal ( String entrada, String mensajeError, String tituloError )
     {
-        double real = 0.0;
+        double real = -1.0;
 
         try
         {
@@ -78,6 +78,7 @@ public final class Validacion
         {
             JOptionPane.showMessageDialog( null, iex.getLocalizedMessage(), AdmSettings.getLanguageBundle().getString( "lk_validation_price_less_than_zero_title" ), JOptionPane.WARNING_MESSAGE );
             datoValido = false;
+            real = -1.0;
         }
 
         return real;
@@ -98,7 +99,7 @@ public final class Validacion
      */
     public static long leerLong ( String entrada, String mensajeError, String tituloError )
     {
-        long longNumber = 0L;
+        long longNumber = -1L;
 
         try
         {
@@ -130,7 +131,7 @@ public final class Validacion
      */
     public static int leerEntero ( String entrada, String mensajeError, String tituloError )
     {
-        int entero = 0;
+        int entero = -1;
 
         try
         {
@@ -152,16 +153,17 @@ public final class Validacion
      *
      * @param strEntradaUsuario A {@code String} that contains the input to 
      *                          be validated
-     * @param tipo              {@code TipoEntradaString} enum constant to
-     *                          indicate the input type to validate it properly
-     * @return                  A {@code String} that contains the same input 
-     *                          if it has a right composition structure
+     * @param tipo              {@code TipoEntradaString enum} constant that
+     *                          indicates the input type to validate it properly
+     * @return                  {@code true} if the input {@code String} has a 
+     *                          valid admitted text composition structure, 
+     *                          {@code false} otherwise
      */
-    public static String validarStrings ( String strEntradaUsuario, TipoEntradaString tipo )
+    public static boolean validarStrings ( String strEntradaUsuario, TipoEntradaString tipo )
     {
         String errorMessage = "", errorTitle = "";
-        int chCounter = 0; //Nombres de variables en ingles.
-        datoValido = true;
+        int chCounter; //Nombres de variables en ingles.
+        boolean isStringInputValid = true;
 
         char[] entrada = strEntradaUsuario.toCharArray();
         int longitudEntrada = entrada.length;
@@ -169,14 +171,14 @@ public final class Validacion
         switch ( tipo )
         {
             case Codigo ->
-            {   // This validation case maybe it is not used, but it is here because it was originally developed with Validation class and it is here just in case if needed some day
+            {   // This validation case maybe is not used, but it is here because it was originally developed with Validation class and it is here just in case if needed some day
                 if ( entrada.length == 2 && entrada[0] == '0' && ( ( entrada[1] >= 2 && entrada[1] <= '7' ) || entrada[1] == '9' ) )
                 {
-                    datoValido = true;
+                    isStringInputValid = true;
                 }
                 else
                 {
-                    datoValido = false;
+                    isStringInputValid = false;
                     errorMessage = "Descripcion del Error: El Codigo debe ser entre 02 y 09 excepto el 08, o sea los 2 digitos, vuelva a ingresarlo de esa manera por favor.";
                     errorTitle = "Codigo no valido";
                 }
@@ -193,7 +195,7 @@ public final class Validacion
                     {	    // Se recorre la cadena caracter por caracter y se evalua si el caracter No se encuentra dentro del rango ascii correspondiente a los digitos
                         if ( !( entrada[chCounter] >= 48 && entrada[chCounter] <= 57 ) ) // Notese el caracter de admiracion '!' de negación
                         {
-                            datoValido = false; // En este caso asignar falso el resultado, lo que significa que lo ingresado no esta dentro del rango debido por lo que no ha pasado la prueba
+                            isStringInputValid = false; // En este caso asignar falso el resultado, lo que significa que lo ingresado no esta dentro del rango debido por lo que no ha pasado la prueba
                             break;
                         }
                     }
@@ -201,7 +203,7 @@ public final class Validacion
                 }
                 else
                 {
-                    datoValido = false;
+                    isStringInputValid = false;
                 }
             }
             
@@ -216,7 +218,7 @@ public final class Validacion
                     {	    // Se recorre la cadena caracter por caracter y se evalua si el caracter No se encuentra dentro del rango ascii correspondiente a los digitos
                         if ( !( entrada[chCounter] >= 48 && entrada[chCounter] <= 57 ) ) // Notese el caracter de admiracion '!' de negación
                         {
-                            datoValido = false; // En este caso asignar falso el resultado, lo que significa que lo ingresado no esta dentro del rango debido por lo que no ha pasado la prueba
+                            isStringInputValid = false; // En este caso asignar falso el resultado, lo que significa que lo ingresado no esta dentro del rango debido por lo que no ha pasado la prueba
                             break;
                         }
                     }
@@ -224,7 +226,7 @@ public final class Validacion
                 }
                 else
                 {
-                    datoValido = false;
+                    isStringInputValid = false;
                 }
             }
 
@@ -234,7 +236,7 @@ public final class Validacion
                 {   // Comparacion: Tabla Ascii -> Rango letras mayusculas 65-90 / Rango letras minusculas 97-122 / Espacio en blanco 32
                     if ( !( ( entrada[chCounter] >= 65 && entrada[chCounter] <= 90 ) || ( entrada[chCounter] >= 97 && entrada[chCounter] <= 122 ) || ( entrada[chCounter] == 32 ) ) )
                     {
-                        datoValido = false;
+                        isStringInputValid = false;
                         errorMessage = AdmSettings.getLanguageBundle().getString( "lk_validation_name_msj" );
                         errorTitle = AdmSettings.getLanguageBundle().getString( "lk_validation_name_title" );
                     }
@@ -251,14 +253,14 @@ public final class Validacion
                     {
                         if ( !( entrada[chCounter] >= 48 && entrada[chCounter] <= 57 ) )
                         {
-                            datoValido = false;
+                            isStringInputValid = false;
                             errorMessage = "Descripcion del Error: El numero telefonico solo puede contener numeros, ingreselo nuevamente.";
                         }
                     }
                 }
                 else
                 {
-                    datoValido = false;
+                    isStringInputValid = false;
                     errorMessage = "Descripcion del Error: El numero telefonico puede maximo hasta 10 numeros, ingreselo nuevamente.";
                 }
             }
@@ -276,17 +278,17 @@ public final class Validacion
                 }
                 if ( !( ( atCounter == 1 ) && ( dotCounter >= 1 ) ) )
                 {   // Validacion tal cual, comparando si existen las cantidades adecuadas del '@' y del '.', sino, se reprueba
-                    datoValido = false;
+                    isStringInputValid = false;
                     errorMessage = "Descripcion del Error: La direccion de correo electronico debe contener 1 unico si�mbolo arroba('@') y al menos 1 punto('.'), ingreselo nuevamente.";
                     errorTitle = "Correo Electronico no valido";
                 }
             }
         }
 
-        if ( !Validacion.isDatoValido() )
+        if ( !isStringInputValid )
             JOptionPane.showMessageDialog( null, errorMessage, errorTitle, JOptionPane.WARNING_MESSAGE );
 
-        return strEntradaUsuario;
+        return isStringInputValid;
     }
     
     /** Validates a client age by calling and trying the method in charge, 
@@ -303,9 +305,9 @@ public final class Validacion
         {
             evaluarEdad( edad );
         }
-        catch( InvalidInputException invalidEx )
+        catch( InvalidInputException invalidInputEx )
         {
-            JOptionPane.showMessageDialog( null, invalidEx.getMessage(), AdmSettings.getLanguageBundle().getString( "lk_validation_age_title" ), JOptionPane.WARNING_MESSAGE );
+            JOptionPane.showMessageDialog( null, invalidInputEx.getMessage(), AdmSettings.getLanguageBundle().getString( "lk_validation_age_title" ), JOptionPane.WARNING_MESSAGE );
             isAgeValid = false;
         }
         return isAgeValid;

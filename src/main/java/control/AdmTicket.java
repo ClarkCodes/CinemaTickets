@@ -8,6 +8,8 @@ package control;
  */
 // Imports
 import data.DatosTickets;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,9 +52,7 @@ public final class AdmTicket
     private Funcion tempReadyFuncion = null;
     private Sala tempReadySala = null;
 
-    // Precio
-    //private double tempReadyPrecio = 0.0;
-    private AdmTicket () // Constructor por defecto puesto como privado, el cu�l inicializa la colecci�n HashMap.
+    private AdmTicket ()
     {
         this.tickets = new HashMap<>();
         this.datosTickets = DatosTickets.getDatosTickets();
@@ -83,6 +83,49 @@ public final class AdmTicket
         EditRow
     }
 
+    
+    
+    /** * Prepares a ticket to be added to the main tickets collection depending
+     * on a given {@code WindowMode} indicator.
+     * <p>
+     * On creation, a new {@code Ticket} instance object is created and 
+     * populated with its respective attribute objects, which contains the 
+     * information and options selected by a user in the ticket generation 
+     * window.
+     * <p>
+     * On update/modification the {@code elementosCine} collection in the
+     * current {@code Ticket} object is cleared to be populated with posibly
+     * modified versions of these ones, the current chosen client is set on the
+     * ticket and the ticket price is recalculated with this posibly new 
+     * information in the ticket.
+     *
+     * @param formaProceder A {@code WindowMode enum} constant indicator to
+     *                      determine what way to go: creation or modification
+     *@see control.AdmTicket
+     */
+    public void prepararTicket ( Commons.WindowMode formaProceder )
+    {
+        switch ( formaProceder )
+        {
+            case Creacion -> 
+            {                
+                ticket.setNumeroTicket( getTicketsGenerados() + 1 );
+                ticket.setId( "T-" + Commons.doubleOneDigitStrFormatter( String.valueOf( ticket.getNumeroTicket() ) ) + LocalDate.now().format( Commons.getFormatoDateTime( Commons.TypeFormatoDateTime.FechaCompacta ) ) + Commons.doubleOneDigitStrFormatter( String.valueOf( LocalTime.now().getMinute() ) ) + Commons.doubleOneDigitStrFormatter( String.valueOf( LocalTime.now().getSecond() ) ) );
+            }
+            case Edicion -> ticket.getElementosCine().clear();
+            default ->
+            {
+            }
+        }
+        
+        ticket.setNombre( "Ticket - " + AdmSettings.getLanguageBundle().getString( "lk_ticket_name" ) + " - " + tempReadySala.getTipoSala() );
+        ticket.setCliente( tempReadyClient );
+        ticket.getElementosCine().put( tempReadyPelicula.getId(), tempReadyPelicula );
+        ticket.getElementosCine().put( tempReadySala.getId(), tempReadySala );
+        ticket.getElementosCine().put( tempReadyFuncion.getId(), tempReadyFuncion );
+        ticket.generarPrecio();
+    }
+    
     /** Puts a just created {@code Ticket} object in the main tickets collection
      * as part of the generated tickets
      */
@@ -196,52 +239,6 @@ public final class AdmTicket
         llenarTablaFuncionElegida( funcionElegida );
     }
 
-    /** * Prepares a ticket to be added to the main tickets collection depending
-     * on a given {@code WindowMode} indicator.
-     * <p>
-     * On creation, a new {@code Ticket} instance object is created and 
-     * populated with its respective attribute objects, which contains the 
-     * information and options selected by a user in the ticket generation 
-     * window.
-     * <p>
-     * On update/modification the {@code elementosCine} collection in the
-     * current {@code Ticket} object is cleared to be populated with posibly
-     * modified versions of these ones, the current chosen client is set on the
-     * ticket and the ticket price is recalculated with this posibly new 
-     * information in the ticket.
-     *
-     * @param formaProceder A {@code WindowMode enum} constant indicator to
-     *                      determine what way to go: creation or modification
-     *@see control.AdmTicket
-     */
-    public void prepararTicket ( Commons.WindowMode formaProceder )
-    {
-        switch ( formaProceder )
-        {
-            case Creacion ->
-            {   // Se crea y se prepara la Instancia de Ticket lista para agregarla al HashMap Principal
-                String codigoTicket = "T-" + tempReadySala.getId() + tempReadyFuncion.getId();
-                setTicket( new Ticket() );
-                getTicket().setId( codigoTicket );
-                getTicket().setNombre( "Ticket - " + AdmSettings.getLanguageBundle().getString( "lk_ticket_name" ) + " - " + tempReadySala.getTipoSala() );
-                getTicket().setNumeroTicket( getTicketsGenerados() + 1 );
-            }
-
-            case Edicion ->
-                ticket.getElementosCine().clear();
-
-            default ->
-            {
-            }
-        }
-
-        getTicket().setCliente( tempReadyClient );
-        getTicket().getElementosCine().put( tempReadyPelicula.getId(), tempReadyPelicula );
-        getTicket().getElementosCine().put( tempReadySala.getId(), tempReadySala );
-        getTicket().getElementosCine().put( tempReadyFuncion.getId(), tempReadyFuncion );
-        getTicket().generarPrecio();
-    }
-
     /** Sets a custom {@code SpinnerNumberModel} to a given {@code JSpinner}
      * element to specify its boundaries
      *
@@ -332,7 +329,7 @@ public final class AdmTicket
      *                      search criteria to apply
      *
      * @since 1.6
-     * @see model.Commons
+     * @see control.Commons
      */
     public void buscarTicket ( JTable tablaBusqueda, Commons.Filters filter )
     {   // Buscar Ticket - Lista segun Filtro que se indique
@@ -899,6 +896,14 @@ public final class AdmTicket
     {
         return tempReadyPelicula;
     }
+    /** Sets the temporary movie used in a ticket creation proccess
+     * @param tempReadyPelicula A {@code Pelicula} temporary object
+     * @since 1.7
+     */
+    public void setTempReadyPelicula ( Pelicula tempReadyPelicula )
+    {
+        this.tempReadyPelicula = tempReadyPelicula;
+    }
     /** Gets The temporary show used in a ticket creation proccess
      * @return The Temporary Ready {@code Funcion} show object
      */
@@ -906,12 +911,28 @@ public final class AdmTicket
     {
         return tempReadyFuncion;
     }
+    /** Sets the temporary show used in a ticket creation proccess
+     * @param tempReadyFuncion A {@code Funcion} temporary object
+     * @since 1.7
+     */
+    public void setTempReadyFuncion ( Funcion tempReadyFuncion )
+    {
+        this.tempReadyFuncion = tempReadyFuncion;
+    }
     /** Gets The temporary theater used in a ticket creation proccess
      * @return The Temporary Ready {@code Sala} theater object
      */
     public Sala getTempReadySala ()
     {
         return tempReadySala;
+    }
+    /** Sets the temporary theater hall used in a ticket creation proccess
+     * @param tempReadySala A {@code Sala} temporary object
+     * @since 1.7
+     */
+    public void setTempReadySala ( Sala tempReadySala )
+    {
+        this.tempReadySala = tempReadySala;
     }
     /** Sets the ticket helper used in a ticket creation proccess
      * @param ticket A {@code Ticket} helper ticket object

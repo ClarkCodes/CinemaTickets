@@ -10,11 +10,11 @@ package visual;
 import control.AdmPelicula;
 import control.AdmSettings;
 import control.AdmTicket;
+import control.Commons;
 import control.Validacion;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
-import model.Commons;
 import model.FilterValue;
 
 /** Search-List Tickets Window
@@ -649,34 +649,45 @@ public class FrmBuscarTicket extends javax.swing.JDialog
         boolean cedulaValida = false, precioValido = false;
         // Validaciones
         if ( !txtPrecioTicket.getText().isBlank() )
+        {
             precio = Validacion.leerReal( txtPrecioTicket.getText(), AdmSettings.getLanguageBundle().getString( "lk_decimal_error_msj" ), AdmSettings.getLanguageBundle().getString( "lk_price_error_title" ) );
-
-        if ( Validacion.isDatoValido() )
-            precioValido = true;
+            precioValido = Validacion.isDatoValido();
+        }
 
         if ( !txtCedula.getText().isBlank() )
-            cedula = Validacion.validarStrings(txtCedula.getText(), Validacion.TipoEntradaString.Cedula_Busqueda );
-
-        if ( Validacion.isDatoValido() )
-            cedulaValida = true;
-        // Posibles escenarios
-        if ( txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() ) // Si los dos estan vacios
         {
-            admTicket.buscarTicket( tblBusquedaTickets );
+            cedula = txtCedula.getText();
+            cedulaValida = Validacion.validarStrings( cedula, Validacion.TipoEntradaString.Cedula_Busqueda );
+        }
+ 
+        // Posibles escenarios
+        if ( !txtPrecioTicket.getText().isBlank() && !precioValido ) // Si hay precio introducido pero no es valido
+        {
+            txtPrecioTicket.setText( "" );
+            txtPrecioTicket.requestFocus();
+        }
+        else if ( !txtCedula.getText().isBlank() && !cedulaValida ) // Si hay una cedula o parte de ella introducida pero no es válida
+        {
+            txtCedula.setText( "" );
+            txtCedula.requestFocus();
+        }
+        else if ( txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() ) // Si ambas cajas de texto estan en blanco
+        {
+            admTicket.buscarTicket( tblBusquedaTickets ); // Se listan todos los tickets existentes sin exclusión alguna
         }
         else
         {
-            if ( txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida ) // Si el precio esta vacio y la cedula tiene algo
+            if ( !precioValido && cedulaValida ) // Si el precio no es valido pero la cedula si es valida
             {
                 FilterValue.setCedulaSearching( cedula );
                 admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Cedula );
             }
-            else if ( !txtPrecioTicket.getText().isBlank() && txtCedula.getText().isBlank() && precioValido ) // Si el precio tiene algo y la cedula esta vacia
+            else if ( precioValido && !cedulaValida ) // Si el precio es valido y la cedula no lo es
             {
                 FilterValue.setTicketPriceSearching( precio );
                 admTicket.buscarTicket( tblBusquedaTickets, Commons.Filters.Precio );
             }
-            else if ( !txtPrecioTicket.getText().isBlank() && !txtCedula.getText().isBlank() && cedulaValida && precioValido ) // Si los dos tienen algo
+            else if ( cedulaValida && precioValido ) // Si los dos son validos
             {
                 FilterValue.setCedulaSearching( cedula );
                 FilterValue.setTicketPriceSearching( precio );
@@ -684,16 +695,6 @@ public class FrmBuscarTicket extends javax.swing.JDialog
             }
         }
         
-        if ( !txtPrecioTicket.getText().isBlank() && !precioValido )
-        {
-            txtPrecioTicket.setText( "" );
-            txtPrecioTicket.requestFocus();
-        }
-        else if ( !txtCedula.getText().isBlank() && !cedulaValida )
-        {
-            txtCedula.setText( "" );
-            txtCedula.requestFocus();
-        }
     }
 
     /** Manages tickets searching using the client filters criterias

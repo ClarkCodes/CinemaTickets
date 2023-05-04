@@ -1,4 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: PROYECTO_CINES_CLARK_CODES.Principal
-Implementation-Version: v1.6-public-stable
 

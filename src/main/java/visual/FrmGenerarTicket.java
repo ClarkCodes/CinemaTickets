@@ -9,10 +9,10 @@ package visual;
 // Imports
 import control.AdmSettings;
 import control.AdmTicket;
+import control.Commons;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.Commons;
 import model.Ticket;
 
 /** Generate Ticket Window
@@ -36,7 +36,6 @@ public class FrmGenerarTicket extends javax.swing.JDialog
         this.setLocationRelativeTo( null );
         this.proceder = proceder;
         this.keyToModify = keyToModify;
-        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png" ) ) ).getImage() );
     }
 
     @SuppressWarnings("unchecked")

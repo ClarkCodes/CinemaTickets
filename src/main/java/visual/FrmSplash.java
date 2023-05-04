@@ -33,7 +33,7 @@ public class FrmSplash extends javax.swing.JFrame implements Runnable
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
-        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png"))).getImage());
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/CinemaTickets_Icon_Vectorizado_Image_500px_300ppi.png"))).getImage());
         setUndecorated(true);
         setResizable(false);
 
@@ -78,11 +78,11 @@ public class FrmSplash extends javax.swing.JFrame implements Runnable
             this.setLocationRelativeTo(null);
             this.setBackground(new Color(0.1f, 0.1f, 0.1f, 0.0f));           
             this.setVisible(true);
-            Thread.sleep(2400);
+            //Thread.sleep(2000);
             new FrmCinemaTicketsSystem().setVisible(true);
             this.dispose();
         } 
-        catch (InterruptedException ex) 
+        catch (Exception ex)
         {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }

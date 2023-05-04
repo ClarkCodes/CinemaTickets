@@ -4,7 +4,7 @@ package visual;
 import control.AdmSettings;
 import control.AdmTicket;
 import control.Validacion;
-import model.Commons;
+import control.Commons;
 
 /* LICENSE
  * Creative Commons Zero v1.0 Universal
@@ -215,16 +215,11 @@ public class FrmDialogClientRegistration extends javax.swing.JDialog
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRegisterActionPerformed
     {//GEN-HEADEREND:event_btnRegisterActionPerformed
-        String id = "", name = "";
         int age = ( int ) spinnerAge.getValue();
         char gender = cmbGender.getSelectedItem().toString().charAt( 0 );
-        boolean validId, validName;
-        
-        id = Validacion.validarStrings( txtId.getText(), Validacion.TipoEntradaString.Cedula_Registro );
-        validId = Validacion.isDatoValido();
-        
-        name = Validacion.validarStrings( txtName.getText(), Validacion.TipoEntradaString.Nombres );
-        validName = Validacion.isDatoValido();
+        String id = txtId.getText(), name = txtName.getText();
+        boolean validId = Validacion.validarStrings( id, Validacion.TipoEntradaString.Cedula_Registro ), 
+                validName = Validacion.validarStrings( name, Validacion.TipoEntradaString.Nombres );
         
         if ( validId & validName & Validacion.validarEdad( age ) )
         {

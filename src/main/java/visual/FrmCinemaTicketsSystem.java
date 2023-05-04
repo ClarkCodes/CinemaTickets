@@ -9,11 +9,11 @@ package visual;
 // Imports
 import control.AdmSettings;
 import control.AdmTicket;
+import control.Commons;
 import data.DatosTickets;
 import java.util.HashMap;
 import java.util.Locale;
 import javax.swing.JOptionPane;
-import model.Commons;
 import model.Ticket;
 
 /** Cinema Tickets System Main {@code JFrame} Class
@@ -36,7 +36,7 @@ public class FrmCinemaTicketsSystem extends javax.swing.JFrame
         this.admSettings = AdmSettings.getAdmSettings();
         initComponents();
         this.setLocationRelativeTo( null );
-        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png" ) ) ).getImage() );
+        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/" + AdmSettings.getCINEMA_TICKETS_APP_ICON() ) ) ).getImage() );
     }
 
     @SuppressWarnings("unchecked")
@@ -238,7 +238,7 @@ public class FrmCinemaTicketsSystem extends javax.swing.JFrame
 
         mnuAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuAbout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_18px.png"))); // NOI18N
+        mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CinemaTickets_Icon_Vectorizado_Image_18px_300ppi.png"))); // NOI18N
         mnuAbout.setText(bundle.getString("lk_about_cinema_tickets")); // NOI18N
         mnuAbout.addActionListener(new java.awt.event.ActionListener()
         {
@@ -364,7 +364,7 @@ public class FrmCinemaTicketsSystem extends javax.swing.JFrame
      */
     public void setLocaleInApp()
     {
-        Locale.setDefault( new Locale ( AdmSettings.getAppLanguage().getLanguage(), AdmSettings.getAppLanguage().getCountry() ) );
+        Locale.setDefault( AdmSettings.getAppLanguage().getLocale() );
         
         if ( this.isVisible() )
             setWelcomeImage ();

@@ -289,7 +289,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         jScrollPane5.setViewportView(jTextArea5);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel11.setText("Flat Look And Feel: FlatLaf 2.1 - FlatLaf IntelliJ Themes 2.1 - FlatLaf Extras 2.1 - SVG Salamander 1.1.3");
+        jLabel11.setText("Flat Look And Feel: FlatLaf 3.0 - FlatLaf IntelliJ Themes 3.0 - FlatLaf Extras 3.0 - SVG Salamander 1.1.4");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -417,7 +417,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jScrollPane7.setViewportView(jPanel1);
@@ -432,7 +432,7 @@ public class FrmAtribucionTerceros extends javax.swing.JDialog
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();

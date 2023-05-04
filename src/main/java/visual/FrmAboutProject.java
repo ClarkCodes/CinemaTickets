@@ -91,7 +91,7 @@ public class FrmAboutProject extends javax.swing.JDialog
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_combinado_ClarkCodesLogo_600x260px.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cinema_Tickets_Icon_with_ClarkCodes_Logo_ABOUT_PROJECT_600x260px_300ppi.png"))); // NOI18N
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 20)); // NOI18N
@@ -184,11 +184,11 @@ public class FrmAboutProject extends javax.swing.JDialog
 
         labelAppVersion.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         labelAppVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelAppVersion.setText("version");
+        labelAppVersion.setText("VERSION");
 
         lblLanguageInfo.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         lblLanguageInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLanguageInfo.setText(bundle.getString("PLATFORM VERSION")); // NOI18N
+        lblLanguageInfo.setText("PLATFORM VERSION");
 
         jLabel25.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -217,14 +217,15 @@ public class FrmAboutProject extends javax.swing.JDialog
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,9 +257,8 @@ public class FrmAboutProject extends javax.swing.JDialog
                                     .addComponent(jLabel25)
                                     .addComponent(lblLanguageInfo)
                                     .addComponent(labelAppVersion))))
-                        .addGap(0, 32, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -13,10 +13,9 @@ import java.util.LinkedList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.Commons;
 import model.Sala;
 
-/** Theater Hall Mamagement Class, hosts tasks and important things related to
+/** Theater Hall Management Class, hosts tasks and important things related to
  * it
  *
  * @author Clark - ClarkCodes - Grupo #6
@@ -116,7 +115,7 @@ public final class AdmSala
      * @param tablaSala A given {@code JTable} which shall show the respective
      *                  theater information
      *
-     * @see model.Commons
+     * @see control.Commons
      */
     public void llenarTablaSalaElegida ( String key, JTable tablaSala )
     {

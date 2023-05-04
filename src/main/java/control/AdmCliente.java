@@ -13,9 +13,8 @@ import java.util.LinkedList;
 import java.util.Random;
 import javax.swing.JComboBox;
 import model.Cliente;
-import model.Commons;
 
-/** Client Mamagement Class, hosts tasks and important things related to it.
+/** Client Management Class, hosts tasks and important things related to it.
  *
  * @author Clark
  * @since 1.0

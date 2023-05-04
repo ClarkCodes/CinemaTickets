@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
 
+applicationName = 'CinemaTickets'
 description = 'Sistema de Administracion de Cines'
 mainClassName = 'PROYECTO_CINES_CLARK_CODES.Principal'
 version = 'v1.6-public-stable'
@@ -11,31 +12,46 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
-    testImplementation     'junit:junit:4.13'
-    implementation fileTree('lib')
+    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'com.formdev:flatlaf:3.0'
+    implementation 'com.formdev:flatlaf-extras:3.0'
+    implementation 'com.formdev:flatlaf-intellij-themes:3.0'
+    implementation 'com.formdev:svgSalamander:1.1.4'
+    implementation 'org.mockito:mockito-core:5.3.1'
+}
+
+application { // Define the main class for the application.
+    mainClass = 'PROYECTO_CINES_CLARK_CODES.Principal'
 }
 
 javadoc
 {
-  title = 'CinemaTickets ' + version
+    title = applicationName + ' ' + version
 }
 
-jar
-{
-    baseName = 'CinemaTickets '
+//jar
+//{
+//    archiveBaseName = applicationName
+//    archiveVersion = version
 
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest
-    {
-        attributes('Main-Class': mainClassName, 'Implementation-Version': version)
-    }
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    manifest
+//    {
+//        attributes('Main-Class': mainClassName, 'Implementation-Version': version)
+//    }
 
-    sourceSets.main.resources.srcDirs = [ "src/main/resources" ]
-    sourceSets.main.resources.includes = [ "**/*.*" ]
+//    sourceSets.main.resources.srcDirs = [ "src/main/resources" ]
+//    sourceSets.main.resources.includes = [ "**/*.*" ]
 
-    from 
-    {
-        configurations.runtimeClasspath.filter { it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+//    from 
+//    {
+//        configurations.runtimeClasspath.filter { it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}

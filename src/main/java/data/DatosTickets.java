@@ -35,7 +35,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Cliente;
-import model.Commons;
+import control.Commons;
 import model.ElementoCine;
 import model.Funcion;
 import model.Pelicula;
@@ -974,7 +974,7 @@ public final class DatosTickets
      */
     public final void settingsChangeVerifier ()
     {   // Setting the Property to store the Properties object later on App Close
-        if ( ( !getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale() )
+        if ( ( !getUserProperties().getProperty( "appLocale" ).equalsIgnoreCase( AdmSettings.getAppLanguage().getLocale().toLanguageTag().replace( "-", "_") )
                 | !getUserProperties().getProperty( "clientDataMode" ).equalsIgnoreCase( admSettings.getClientDataMode().toString() )
                 | !getUserProperties().getProperty( "appDataMode" ).equalsIgnoreCase( admSettings.getAppDataMode().toString() )
                 | !getUserProperties().getProperty( "fileTypeToSave" ).equalsIgnoreCase( admSettings.getFileTypeToSave().toString().toLowerCase() )

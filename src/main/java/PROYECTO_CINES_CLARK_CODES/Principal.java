@@ -25,13 +25,7 @@ public class Principal
         
         //</editor-fold>
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater( new Runnable() 
-        {
-            public void run() 
-            {
-                new Thread( new FrmSplash() ).start();
-            }
-        } );
+        java.awt.EventQueue.invokeLater( () -> new Thread( new FrmSplash() ).start() );
     }
     
 }

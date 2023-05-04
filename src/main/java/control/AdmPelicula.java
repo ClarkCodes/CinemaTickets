@@ -21,11 +21,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import model.Commons;
 import model.Funcion;
 import model.Pelicula;
 
-/** Movie Mamagement Class, hosts tasks and important things related to it
+/** Movie Management Class, hosts tasks and important things related to it
  *
  * @author Clark - ClarkCodes
  * @since 1.0
@@ -268,7 +267,7 @@ public final class AdmPelicula
      *                    inserted as the first element, otherwise this word is 
      *                    ommited
      * 
-     * @see model.Commons
+     * @see control.Commons
      */
     public void llenarComboPeliculas ( JComboBox comboMovies, Commons.WindowMode mode )
     {   //np: Nombre Pelicula
@@ -334,7 +333,7 @@ public final class AdmPelicula
      *                            the showtimes associated to the movie 
      *                            specified
      *
-     * @see model.Commons
+     * @see control.Commons
      */
     public void llenarTablaPeliculaElegida ( String key, JTable tablaPelicula, JComboBox horariosDisponibles )
     {   // Aquí también se llena el Combo Horarios Disponibles
@@ -350,7 +349,7 @@ public final class AdmPelicula
             columnModelTP.getColumn( 1 ).setPreferredWidth( 310 );
             columnModelTP.getColumn( 2 ).setPreferredWidth( 120 );
             columnModelTP.getColumn( 3 ).setPreferredWidth( 120 );
-            columnModelTP.getColumn( 3 ).setPreferredWidth( 120 );
+            //columnModelTP.getColumn( 3 ).setPreferredWidth( 120 ); UNNECESSARY REPEATED STEP - MARKED FOR REMOVAL
         }
 
         tablaPelicula.setValueAt( peliculas.get( key ).getId(), 0, 0 );
@@ -368,7 +367,7 @@ public final class AdmPelicula
      * @param key            The given {@code String} that contains the key to
      *                       get the movie from the movies main collection
      * @param comboShowtimes The given {@code JComboBox} object to be populated
-     * @see model.Commons
+     * @see control.Commons
      */
     public void llenarComboHorariosDisponibles ( String key, JComboBox comboShowtimes )
     {

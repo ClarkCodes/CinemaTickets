@@ -24,7 +24,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import model.Commons;
 import visual.FrmCinemaTicketsSystem;
 
 /** Settings Management Class, hosts tasks and important things related to it
@@ -39,6 +38,7 @@ public final class AdmSettings
     private final static int VERSION_MINOR = 6;
     private final static VersionAccess VERSION_ACCESS = VersionAccess.Public;
     private final static VersionState VERSION_STATE = VersionState.Stable;
+    private final static String CINEMA_TICKETS_APP_ICON = "CinemaTickets_Icon_Vectorizado_Image_500px_300ppi.png";
 
     // Themes
     private final ArrayList<String> availableFlatLafThemes; // Main Lists of Themes - These lists will be useful to fulfill the combo boxes of Settings Window
@@ -56,6 +56,7 @@ public final class AdmSettings
 
     // Icons
     private final int PX_X2; // Tamanio en pixeles que ocuparan los iconos con doble tamanio, los normales miden 16x16 pixeles ergo los x2 miden 32x32 pixeles.
+  //private FlatSVGIcon cinemaTicketsIcon18px; TODO: VERIFICAR Y PROBAR BIEN UN ICONO SVG PARA LA APP
     private FlatSVGIcon addIcon;
     private FlatSVGIcon addIconForGenerateForm;
     private FlatSVGIcon addClientForClientManualInputDialog;
@@ -123,7 +124,7 @@ public final class AdmSettings
         /** Gets the corresponding {@code String} language key asociated to its
          * corresponding {@code enum} constant
          * 
-         * @return The asociated {@code String} language key
+         * @return The associated {@code String} language key
          * @since 1.6
          */
         public String getLangKey()
@@ -165,12 +166,13 @@ public final class AdmSettings
      */
     public static enum SupportedLanguagesAndLocales
     {   /** Language {@code enum} constant for Spanish */
-        Español ( "es_EC", "es", "EC" ), /** Language {@code enum} constant for English */
-        English ( "en_US", "en", "US" );
+        Español ( new Locale( "es", "EC" ), "es", "EC" ), /** Language {@code enum} constant for English */
+        English ( new Locale( "en", "US" ), "en", "US" );
         
-        final String locale, language, country;
+        final Locale locale;
+        final String language, country;
         
-        SupportedLanguagesAndLocales ( String locale, String language, String country )
+        SupportedLanguagesAndLocales ( Locale locale, String language, String country )
         {
             this.locale = locale;
             this.language = language;
@@ -185,7 +187,7 @@ public final class AdmSettings
          * @since 1.6
          * @see Locale
          */
-        public String getLocale()
+        public Locale getLocale()
         {
             return this.locale;
         }
@@ -384,82 +386,44 @@ public final class AdmSettings
     {
         var theme = switch ( themeToSet )
         {
-            case "Flat Dark":
-                yield new com.formdev.flatlaf.FlatDarkLaf();
-            case "Flat Light":
-                yield new com.formdev.flatlaf.FlatLightLaf();
-            case "Flat Darcula":
-                yield new com.formdev.flatlaf.FlatDarculaLaf();
-            case "Dracula":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaIJTheme();
-            case "Flat IntelliJ Light":
-                yield new FlatLightFlatIJTheme();
-            case "Flat IntelliJ Dark":
-                yield new FlatDarkFlatIJTheme();
-            case "Arc Dark (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme();
-            case "Arc Dark Orange":
-                yield new FlatArcDarkOrangeIJTheme();
-            case "Arc Orange":
-                yield new FlatArcOrangeIJTheme();
-            case "One Dark":
-                yield new FlatOneDarkIJTheme();
-            case "Dark Purple":
-                yield new FlatDarkPurpleIJTheme();
-            case "Monocai":
-                yield new FlatMonocaiIJTheme();
-            case "Solarized Dark":
-                yield new FlatSolarizedDarkIJTheme();
-            case "Solarized Light":
-                yield new FlatSolarizedLightIJTheme();
-            case "Solarized Dark (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkIJTheme();
-            case "Solarized Light (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightIJTheme();
-            case "Carbon":
-                yield new FlatCarbonIJTheme();
-            case "Cobalt 2":
-                yield new FlatCobalt2IJTheme();
-            case "Gradianto Dark Fuchsia":
-                yield new FlatGradiantoDarkFuchsiaIJTheme();
-            case "Gradianto Deep Ocean":
-                yield new FlatGradiantoDeepOceanIJTheme();
-            case "Gradianto Midnight Blue":
-                yield new FlatGradiantoMidnightBlueIJTheme();
-            case "Gradianto Nature Green":
-                yield new FlatGradiantoNatureGreenIJTheme();
-            case "Gruvbox Dark Hard":
-                yield new FlatGruvboxDarkHardIJTheme();
-            case "Gruvbox Dark Medium":
-                yield new FlatGruvboxDarkMediumIJTheme();
-            case "Hiberbee Dark":
-                yield new FlatHiberbeeDarkIJTheme();
-            case "Atom One Dark (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme();
-            case "Atom One Light (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme();
-            case "GitHub (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme();
-            case "GitHub Dark (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme();
-            case "Material Darker (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme();
-            case "Material Design Dark":
-                yield new FlatMaterialDesignDarkIJTheme();
-            case "Material Deep Ocean (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme();
-            case "Material Oceanic (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme();
-            case "Material Palenight (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightIJTheme();
-            case "Monokai Pro (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProIJTheme();
-            case "Moonlight (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMoonlightIJTheme();
-            case "Night Owl (Material)":
-                yield new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlIJTheme();
-            default:
-                yield null;
+            case "Flat Dark" -> new com.formdev.flatlaf.FlatDarkLaf();
+            case "Flat Light" -> new com.formdev.flatlaf.FlatLightLaf();
+            case "Flat Darcula" -> new com.formdev.flatlaf.FlatDarculaLaf();
+            case "Dracula" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaIJTheme();
+            case "Flat IntelliJ Light" -> new FlatLightFlatIJTheme();
+            case "Flat IntelliJ Dark" -> new FlatDarkFlatIJTheme();
+            case "Arc Dark (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme();
+            case "Arc Dark Orange" -> new FlatArcDarkOrangeIJTheme();
+            case "Arc Orange" -> new FlatArcOrangeIJTheme();
+            case "One Dark" -> new FlatOneDarkIJTheme();
+            case "Dark Purple" -> new FlatDarkPurpleIJTheme();
+            case "Monocai" -> new FlatMonocaiIJTheme();
+            case "Solarized Dark" -> new FlatSolarizedDarkIJTheme();
+            case "Solarized Light" -> new FlatSolarizedLightIJTheme();
+            case "Solarized Dark (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkIJTheme();
+            case "Solarized Light (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightIJTheme();
+            case "Carbon" -> new FlatCarbonIJTheme();
+            case "Cobalt 2" -> new FlatCobalt2IJTheme();
+            case "Gradianto Dark Fuchsia" -> new FlatGradiantoDarkFuchsiaIJTheme();
+            case "Gradianto Deep Ocean" -> new FlatGradiantoDeepOceanIJTheme();
+            case "Gradianto Midnight Blue" -> new FlatGradiantoMidnightBlueIJTheme();
+            case "Gradianto Nature Green" -> new FlatGradiantoNatureGreenIJTheme();
+            case "Gruvbox Dark Hard" -> new FlatGruvboxDarkHardIJTheme();
+            case "Gruvbox Dark Medium" -> new FlatGruvboxDarkMediumIJTheme();
+            case "Hiberbee Dark" -> new FlatHiberbeeDarkIJTheme();
+            case "Atom One Dark (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme();
+            case "Atom One Light (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme();
+            case "GitHub (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme();
+            case "GitHub Dark (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme();
+            case "Material Darker (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme();
+            case "Material Design Dark" -> new FlatMaterialDesignDarkIJTheme();
+            case "Material Deep Ocean (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme();
+            case "Material Oceanic (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme();
+            case "Material Palenight (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightIJTheme();
+            case "Monokai Pro (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProIJTheme();
+            case "Moonlight (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMoonlightIJTheme();
+            case "Night Owl (Material)" -> new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlIJTheme();
+            default -> null;
         };
 
         try
@@ -666,7 +630,7 @@ public final class AdmSettings
     {
         language = language.substring( 0, 2 ).toLowerCase();
         
-        for (SupportedLanguagesAndLocales ln : SupportedLanguagesAndLocales.values())
+        for ( SupportedLanguagesAndLocales ln : SupportedLanguagesAndLocales.values() )
         {
             if( ln.getLanguage().equalsIgnoreCase( language ) )
             {
@@ -1052,5 +1016,13 @@ public final class AdmSettings
     {
         return copyIcon;
     }
-
+    /** Gets the Cinema Tickets App Icon
+     * @return A {@code String} that represent the name of the icon in the app 
+     * resources location
+     * @since 1.6
+     */
+    public static String getCINEMA_TICKETS_APP_ICON()
+    {
+        return CINEMA_TICKETS_APP_ICON;
+    }
 }

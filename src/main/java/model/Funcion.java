@@ -7,6 +7,7 @@ package model;
  * Please check out the license file in this project's root folder.
  */
 // Imports
+import control.Commons;
 import control.AdmSettings;
 import java.io.Serializable;
 import java.time.LocalTime;

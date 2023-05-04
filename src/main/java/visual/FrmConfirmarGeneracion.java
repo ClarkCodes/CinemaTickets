@@ -12,7 +12,7 @@ import control.AdmTicket;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
-import model.Commons;
+import control.Commons;
 
 /** Tickets Comfirmation Window
  *
@@ -168,7 +168,10 @@ public class FrmConfirmarGeneracion extends javax.swing.JDialog
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        txaDetallesTicket.setText("\n" + AdmSettings.getLanguageBundle().getString( "lk_generation_date_label" ) + admTicket.getTicket().getFechaGeneracion().format(Commons.getFormatoDateTime(Commons.TypeFormatoDateTime.FechaLarga ) ) + admTicket.getTicket() );
+        txaDetallesTicket.setText("\n" + 
+                AdmSettings.getLanguageBundle().getString( "lk_generation_date_label" ) + admTicket.getTicket().getFechaGeneracion().format( Commons.getFormatoDateTime( Commons.TypeFormatoDateTime.FechaLarga ) ) + 
+                admTicket.getTicket() );
+        
         popUpMnuitCopy.setIcon( AdmSettings.getAdmSettings().getCopyIcon() );
     }//GEN-LAST:event_formWindowOpened
 

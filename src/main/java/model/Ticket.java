@@ -7,6 +7,7 @@ package model;
  * Please check out the license file in this project's root folder.
  */
 // Imports
+import control.Commons;
 import control.AdmSettings;
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -44,7 +45,7 @@ public final class Ticket extends ElementoCine implements IPrecio, Serializable
     // Objeto Cliente
     private Cliente cliente;
 
-    // Atributos - Campos - Propiedades
+    // Otros Atributos - Campos - Propiedades
     private int numeroTicket = 0;
     private double precio = 0.0;
     private LocalDate fechaGeneracion = LocalDate.now();
