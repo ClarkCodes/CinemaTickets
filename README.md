@@ -12,10 +12,14 @@ CinemaTickets was born as a University school project, in Software Engineering a
 This is a Cinema Managenemt System focused mainly on making and getting Cinema Tickets all the way:
 It performs CRUD operations just inside the application (with no database connection, only with collections), it can open and save application files, perform searches applying different filters, providing an easy-to-use GUI, friendly and intuitive for a great experience and with a decent level of customization and personalization, it supports User Settings, GUI Laf themes, Binary and Text saving/opening CinemaTickets files, it is available in English and Spanish, and more features coming on future versions.
 
-### Tecnologías utilizadas
-[![Java](https://img.shields.io/badge/Java-OpenJDK_17.0.2-orange.svg?longCache=true&style=flat)](https://jdk.java.net/archive/)
-[![Gradle](https://img.shields.io/badge/Gradle-8.1-lightgrey.svg?longCache=true&style=flat)](https://docs.gradle.org/8.1/release-notes.html)
-[![Apache NetBeans](https://img.shields.io/badge/Apache_NetBeans-17-green.svg?longCache=true&style=flat)](https://netbeans.apache.org/download/nb17/)
+### Used Technologies
+[![Java](https://img.shields.io/badge/Java-OpenJDK_17.0.2-f89820.svg?longCache=true&style=flat)](https://jdk.java.net/archive/)
+
+[![FlatLaf](https://img.shields.io/badge/FlatLaf-3.0-007ec6.svg?longCache=true&style=flat-square)](https://www.formdev.com/flatlaf/)
+
+[![Gradle](https://img.shields.io/badge/Gradle-8.1-02303a.svg?longCache=true&style=flat&logo=gradle)](https://docs.gradle.org/8.1/release-notes.html)
+
+[![Apache NetBeans](https://img.shields.io/badge/Apache_NetBeans-17-a1c535.svg?longCache=true&style=flat&logo=apachenetbeanside)](https://netbeans.apache.org/download/nb17/)
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/39943822/167284068-78154a5e-7927-42a1-b02f-0991cb6fc99d.png"/>
@@ -78,7 +82,7 @@ If you want to contribute code to the project:
 
 ###
 ## ![ClarkCodes Logo OnTransparent_100x100px_300ppi](https://user-images.githubusercontent.com/39943822/235443512-3ab382e8-888e-4d2d-87ba-1c8f4ef3ec45.png) Hey what's up man!, I'm Clark, the creator of CinemaTickets.
-[![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/:@clarkcodes?style=social)](https://youtube.com/@ClarkCodes?sub_confirmation=1)
+[![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/views/:@clarkcodes?style=social)](https://youtube.com/@ClarkCodes?sub_confirmation=1)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ClarkCodes?style=social)](https://twitter.com/clarkcodes)
 [![GitHub Followers](https://img.shields.io/github/followers/ClarkCodes?style=social)](https://github.com/ClarkCodes)
 
