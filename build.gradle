@@ -4,9 +4,9 @@ apply plugin: 'application'
 
 applicationName = 'CinemaTickets'
 description = 'Sistema de Administracion de Cines'
-mainClassName = 'PROYECTO_CINES_CLARK_CODES.Principal'
+//mainClassName = 'PROYECTO_CINES_CLARK_CODES.Principal'
 version = 'v1.6-public-stable'
-targetCompatibility = 17
+targetCompatibility = 21
 
 repositories {
     mavenCentral()
@@ -20,9 +20,9 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    implementation 'com.formdev:flatlaf:3.0'
-    implementation 'com.formdev:flatlaf-extras:3.0'
-    implementation 'com.formdev:flatlaf-intellij-themes:3.0'
+    implementation 'com.formdev:flatlaf:3.1.1'
+    implementation 'com.formdev:flatlaf-extras:3.1.1'
+    implementation 'com.formdev:flatlaf-intellij-themes:3.1.1'
     implementation 'com.formdev:svgSalamander:1.1.4'
     implementation 'org.mockito:mockito-core:5.3.1'
 }
@@ -31,8 +31,7 @@ application { // Define the main class for the application.
     mainClass = 'PROYECTO_CINES_CLARK_CODES.Principal'
 }
 
-javadoc
-{
+javadoc {
     title = applicationName + ' ' + version
 }
 
