@@ -204,8 +204,8 @@ public final class Commons
      *
      * @return The Unique {@code Commons} instance
      */
-    public static Commons getAdm () // Método estático y público de esta clase que devuelve la instancia única de esta clase, si recién se abre la aplicación y recién se van a agregar datos 
-    {                                    //se crea la instancia de esta clase, pero si ya fué creada se devuelve la que ya está, manteniendo una única instancia siempre
+    public static Commons getAdm () // Mï¿½todo estï¿½tico y pï¿½blico de esta clase que devuelve la instancia ï¿½nica de esta clase, si reciï¿½n se abre la aplicaciï¿½n y reciï¿½n se van a agregar datos 
+    {                                    //se crea la instancia de esta clase, pero si ya fuï¿½ creada se devuelve la que ya estï¿½, manteniendo una ï¿½nica instancia siempre
         if ( adm == null )
             adm = new Commons();
         return adm;
@@ -227,7 +227,7 @@ public final class Commons
         
         switch ( AdmSettings.getAppLanguage() )
         {
-            case Español ->
+            case EspaÃ±ol ->
             {
                 strFormatoDateTime = switch ( tipoFormato )
                 {

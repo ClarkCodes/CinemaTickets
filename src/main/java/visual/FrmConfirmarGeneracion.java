@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import control.Commons;
 
-/** Tickets Comfirmation Window
+/** Tickets Confirmation Window
  *
  * @author Clark - ClarkCodes
  * @since 1.0
@@ -30,7 +30,7 @@ public class FrmConfirmarGeneracion extends javax.swing.JDialog
         this.setLocationRelativeTo( null );
         getRootPane().setDefaultButton( btnConfirmar );
         admTicket = AdmTicket.getAdm();
-        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/Cinema_Tickets_Icon_12@8x_MODIFICADO_SINGLE_500px.png" ) ) ).getImage() );
+        this.setIconImage( ( new javax.swing.ImageIcon( getClass().getResource( "/CinemaTickets_Icon_Vectorizado_Image_500px_300ppi.png" ) ) ).getImage() );
     }
 
     @SuppressWarnings("unchecked")

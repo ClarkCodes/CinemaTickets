@@ -166,7 +166,7 @@ public final class AdmSettings
      */
     public static enum SupportedLanguagesAndLocales
     {   /** Language {@code enum} constant for Spanish */
-        Español ( new Locale( "es", "EC" ), "es", "EC" ), /** Language {@code enum} constant for English */
+        EspaÃ±ol ( new Locale( "es", "EC" ), "es", "EC" ), /** Language {@code enum} constant for English */
         English ( new Locale( "en", "US" ), "en", "US" );
         
         final Locale locale;
@@ -521,7 +521,7 @@ public final class AdmSettings
 
         languageBundle = switch ( appLanguage )
         {
-            case Español -> ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" );
+            case EspaÃ±ol -> ResourceBundle.getBundle( "internationalization/Internationalization_Bundle" );
             case English -> ResourceBundle.getBundle( "internationalization/Internationalization_Bundle_en_US" );
         };
         
