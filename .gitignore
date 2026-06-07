@@ -2,12 +2,17 @@
 .gradle
 
 # Ignore Gradle build output directory
-build
+build/
+
+# Bin Output directory
+bin/
+
+# IDE settings file
+.settings/
 
 # Ignore Test folder because it is not ready yet to push
 src\test
 
-# Ignore default and user settings file, this should be for be created by
-# execution for every individual user
+# Ignore default and user settings file, this should be created by the first execution for every individual user
 defaultSettings.ctKnSettings
 userSettings.ctKnSettings
